@@ -5,7 +5,9 @@
 #include <stdlib.h>
 #include <memory>
 #include <algorithm>
+#include <string>
 #include <vector>
 #include <list>
+#include <map>
 
 #endif
