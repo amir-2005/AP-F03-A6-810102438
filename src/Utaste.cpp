@@ -88,15 +88,49 @@ void UTaste::loadDistrictsData(string path_to_districts)
 
 void UTaste::addUser(string username, string password)
 {
-    for (auto u: users)
+    if (logged_in == true)
+        throw(PermissionDenied("can't sign up while logged in"));
+
+    for (auto u : users)
         if (u->getName() == username)
             throw(BadRequest("The user is already signed up"));
 
-    users.push_back(make_shared<User>(username, password)); 
+    users.push_back(make_shared<User>(username, password));
 }
 
-void UTaste::test()
+void UTaste::login(string username, string password)
 {
-    for (auto u:users)
-        cout << "test" << u->getName() << endl;
+    if (logged_in == true)
+        throw(PermissionDenied("can't login twice"));
+
+    for (auto u : users)
+    {
+        if (u->getName() == username)
+        {
+            if (u->getPassword() == password)
+            {
+                logged_in = true;
+                current_user = u;
+                return;
+            }
+            else
+                throw(PermissionDenied("wrong password"));
+        }
+    }
+    throw(NotFound("user does not exist"));
 }
+
+void UTaste::logout()
+{
+    if (logged_in == false)
+        throw(PermissionDenied("can't logout before login"));
+
+    logged_in = false;
+    current_user = nullptr;
+}
+
+// void UTaste::test()
+// {
+//     for (auto u:users)
+//         cout << "test" << u->getName() << endl;
+// }

@@ -22,15 +22,15 @@ public:
     void setReservation(string restaurant_name, int table_id, time_period reserve_time, vector<food> foods);
     void showReservations(string restaurant_name, int reserve_id);
     void deleteReservation(string restaurant_name, int reserve_id);
-    bool logged_in = false;
 
     void test();
 
 private:
-    shared_ptr<User> current_user;
+    shared_ptr<User> current_user = nullptr;
     list<shared_ptr<User>> users;
     list<shared_ptr<Restaurant>> rests;
     vector<shared_ptr<District>> districts;
+    bool logged_in = false;
 };
 
 #endif

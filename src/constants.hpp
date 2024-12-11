@@ -35,6 +35,7 @@ const string BAD_REQUEST_MSG = "Bad Request";
 const string NOT_FOUND_MSG = "Not Found";
 const string PERMISSION_DENIED_MSG = "Permission Denied";
 const string EMPTY_MSG = "EMPTY";
+const string SUCCESS_MSG = "OK";
 
 const string ARG_KEY_USERNAME = "username";
 const string ARG_KEY_PASSWORD = "password";
@@ -46,6 +47,7 @@ const string ARG_KEY_START_TIME =  "start_time";
 const string ARG_KEY_END_TIME =  "end_time";
 const string ARG_KEY_FOODS =  "foods";
 const string ARG_KEY_RESERVE_ID =  "reserve_id";
+
 
 
 #endif

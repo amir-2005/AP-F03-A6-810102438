@@ -11,21 +11,37 @@ Terminal::Terminal(UTaste _utaste) : utaste(_utaste)
             storeCommandArgs(input);
 
             if (command_type == POST_COMMAND_TYPE && command == SIGNUP_COMMAND)
-            {
-                if (utaste.logged_in == true)
-                    throw(PermissionDenied("can't sign up while logged in"));
-                
+            {   
                 if (args.find(ARG_KEY_USERNAME) == args.end() || args.find(ARG_KEY_PASSWORD) == args.end())
                     throw(BadRequest("invalid arguments for sign up"));
                 
                 utaste.addUser(args[ARG_KEY_USERNAME], args[ARG_KEY_PASSWORD]);
+                cout << SUCCESS_MSG << endl;
+            }
+
+            else if (command_type == POST_COMMAND_TYPE && command == LOGIN_COMMAND)
+            {   
+                if (args.find(ARG_KEY_USERNAME) == args.end() || args.find(ARG_KEY_PASSWORD) == args.end())
+                    throw(BadRequest("invalid arguments for login"));
+                
+                utaste.login(args[ARG_KEY_USERNAME], args[ARG_KEY_PASSWORD]);
+                cout << SUCCESS_MSG << endl;
+            }
+
+            else if (command_type == POST_COMMAND_TYPE && command == LOGOUT_COMMAND)
+            {
+                if (!args.empty())
+                    throw(BadRequest("invalid arguments for logout"));
+                
+                utaste.logout();
+                cout << SUCCESS_MSG << endl;
             }
         }
         catch (const exception &e)
         {
             cout << e.what() << endl;
         }
-        
+
     }
 }
 
