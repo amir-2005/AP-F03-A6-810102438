@@ -83,6 +83,7 @@ void UTaste::loadDistrictsData(string path_to_districts)
         i++;
     }
 
+    // TODO : SORT DISTRICT VECTOR
     districts_file.close();
 }
 
@@ -127,6 +128,24 @@ void UTaste::logout()
 
     logged_in = false;
     current_user = nullptr;
+}
+
+void UTaste::setUserDistrict(string district_name)
+{
+    for (auto d:districts)
+        if (d->name == district_name)
+        {
+            current_user->setDistrict(d);
+            return;
+        }
+
+    throw(NotFound("district not found"));
+}
+
+void UTaste::setReservation(string restaurant_name, int table_id, time_period reserve_time, vector<food> foods)
+{
+    // TODO : create reservaion id for each reserve at restaurant class , 
+    // shared_ptr<Reservation> resrvation = make_sahred(restaurant_name, )
 }
 
 // void UTaste::test()

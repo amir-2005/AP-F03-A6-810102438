@@ -18,7 +18,7 @@ private:
     string command;
     string command_type;
     map<string, string> args;
-    void storeCommandArgs(string input);
+    void extractCommandArgs(string input);
 };
 
 #endif

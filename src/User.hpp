@@ -19,11 +19,11 @@ public:
     string getReservationInfo(string restaurant_name, int id);
     string getName() { return name; };
     string getPassword() { return password; };
+    list<shared_ptr<Reservation>> reservs;
 
 private:
     string name;
     string password;
-    list<shared_ptr<Reservation>> reservs;
     shared_ptr<District> distric;
 };
 

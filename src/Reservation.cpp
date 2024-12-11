@@ -1,8 +1,7 @@
 #include "Reservation.hpp"
 
-Reservation::Reservation(int _id, string _restaurant_name, time_period _time, map<food, int> _foods, shared_ptr<User> _user)
+Reservation::Reservation(string _restaurant_name, time_period _time, map<food, int> _foods, shared_ptr<User> _user)
 {
-    id = _id;
     restaurant_name = _restaurant_name;
     time = _time;
     foods = _foods;
@@ -18,4 +17,12 @@ string Reservation::getInfo()
         output += " " + f.first + "(" + to_string(f.second) + ")";
     output = "\n";
     return output;
+}
+
+bool Reservation :: checkTimeInterference(time_period time_limit, bool shoud_be_in = false)
+{
+    if (shoud_be_in)
+        return (time.second > time_limit.second) || (time.first < time_limit.first);
+    else 
+        return (time.second > time_limit.first) || (time.first < time_limit.second);
 }
