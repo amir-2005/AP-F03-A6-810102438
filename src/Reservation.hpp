@@ -10,15 +10,16 @@ class Reservation;
 class Reservation
 {
 public:
-    Reservation(string _restaurant_name, time_period _time, vector<food> _foods);
+    Reservation(int _id, string _restaurant_name, time_period _time, map<food, int> _foods, shared_ptr<User> _user);
     string getInfo();
-    
+    string restaurant_name;
+    int id;
 
 private:
     shared_ptr<User> user;
-    string restaurant_name;
     time_period time;
-    vector<food> foods;
+    map<food, int> foods;
+    int table_id;
 };
 
 #endif

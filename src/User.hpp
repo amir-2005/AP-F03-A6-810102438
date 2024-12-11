@@ -14,9 +14,9 @@ class User
 public:
     User(string _name, string _password);
     void setDistrict(District current_distric);
-    void addReservation(Reservation& reservation);
-    void removeReservation(Reservation& reservation);
-    list<shared_ptr<Reservation>> getReservations();
+    void addReservation(shared_ptr<Reservation> reservation);
+    void removeReservation(shared_ptr<Reservation> reservation);
+    string getReservationInfo(string restaurant_name, int id);
 
 private:
     string name;

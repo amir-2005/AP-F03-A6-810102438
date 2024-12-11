@@ -24,7 +24,6 @@ private:
     User current_user;
     list<shared_ptr<User>> users;
     list<shared_ptr<Restaurant>> rests;
-    map<int, shared_ptr<Reservation>> reservs;
     vector<shared_ptr<distric>> districts;
 };
 
