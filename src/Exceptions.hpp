@@ -9,16 +9,17 @@ class BadRequest : public exception
 public:
     BadRequest(const string &msg)
     {
-        message = msg;
+        message = BAD_REQUEST_MSG;
     }
 
     const char *what() const throw()
     {
-        return message.c_str();
+        return default_message.c_str();
     }
 
 private:
     string message;
+    string default_message = BAD_REQUEST_MSG;
 };
 
 class Empty : public exception
@@ -31,11 +32,12 @@ public:
 
     const char *what() const throw()
     {
-        return message.c_str();
+        return default_message.c_str();
     }
 
 private:
     string message;
+    string default_message = EMPTY_MSG;
 };
 
 class PermissionDenied : public exception
@@ -48,11 +50,12 @@ public:
 
     const char *what() const throw()
     {
-        return message.c_str();
+        return default_message.c_str();
     }
 
 private:
     string message;
+    string default_message = PERMISSION_DENIED_MSG;
 };
 
 class NotFound : public exception
@@ -65,11 +68,13 @@ public:
 
     const char *what() const throw()
     {
-        return message.c_str();
+        return default_message.c_str();
     }
 
 private:
     string message;
+    string default_message = NOT_FOUND_MSG;
+
 };
 
 #endif

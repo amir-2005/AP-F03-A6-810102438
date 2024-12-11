@@ -2,8 +2,8 @@
 
 User::User(string _name, string _password)
 {
-    name = name;
-    password = password;
+    name = _name;
+    password = _password;
 }
 
 void User::setDistrict(shared_ptr<District> current_district)

@@ -85,3 +85,18 @@ void UTaste::loadDistrictsData(string path_to_districts)
 
     districts_file.close();
 }
+
+void UTaste::addUser(string username, string password)
+{
+    for (auto u: users)
+        if (u->getName() == username)
+            throw(BadRequest("The user is already signed up"));
+
+    users.push_back(make_shared<User>(username, password)); 
+}
+
+void UTaste::test()
+{
+    for (auto u:users)
+        cout << "test" << u->getName() << endl;
+}

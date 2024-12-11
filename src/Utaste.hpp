@@ -5,6 +5,7 @@
 #include "constants.hpp"
 #include "User.hpp"
 #include "Restaurant.hpp"
+#include "Exceptions.hpp"
 
 class UTaste
 {
@@ -12,6 +13,7 @@ public:
     UTaste(string path_to_restaurants, string path_to_districts);
     void loadDistrictsData(string path_to_districts);
     void loadRestaurantData(string path_to_restaurants);
+    void addUser(string username, string password);
     void login(string username, string password);
     void logout();
     string getDistrictsInfo(string district_name);
@@ -20,6 +22,9 @@ public:
     void setReservation(string restaurant_name, int table_id, time_period reserve_time, vector<food> foods);
     void showReservations(string restaurant_name, int reserve_id);
     void deleteReservation(string restaurant_name, int reserve_id);
+    bool logged_in = false;
+
+    void test();
 
 private:
     shared_ptr<User> current_user;
