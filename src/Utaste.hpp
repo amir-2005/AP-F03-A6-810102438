@@ -10,7 +10,7 @@ class UTaste
 {
 public:
     UTaste();
-    void loadData(string path_to_restaurants, string path_to_districts);
+    void loadDistrictsData(string path_to_districts);
     void login(string username, string password);
     void logout();
     string getDistrictsInfo(string district_name);
@@ -21,10 +21,10 @@ public:
     void deleteReservation(string restaurant_name, int reserve_id);
 
 private:
-    User current_user;
+    shared_ptr<User> current_user;
     list<shared_ptr<User>> users;
     list<shared_ptr<Restaurant>> rests;
-    vector<shared_ptr<distric>> districts;
+    vector<shared_ptr<District>> districts;
 };
 
 #endif

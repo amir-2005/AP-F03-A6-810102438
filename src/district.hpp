@@ -2,17 +2,16 @@
 #define DISTRICT_HPP
 
 #include "libraries.hpp"
-// #include "Restaurant.hpp"
+#include "Restaurant.hpp"
 using namespace std;
 
-
-typedef struct distric  
+struct District
 {
+    District(string _name) : name(_name) {};
     string name;
-    vector<shared_ptr<distric>> neighbors;
-    // vector<shared_ptr<Restaurant>> rests;
-
-} District;
+    vector<shared_ptr<Restaurant>> rests;
+    vector<shared_ptr<District>> neighbors;
+};
 
 
 #endif

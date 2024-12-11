@@ -13,7 +13,7 @@ class User
 {
 public:
     User(string _name, string _password);
-    void setDistrict(District current_distric);
+    void setDistrict(shared_ptr<District> current_distric);
     void addReservation(shared_ptr<Reservation> reservation);
     void removeReservation(shared_ptr<Reservation> reservation);
     string getReservationInfo(string restaurant_name, int id);
@@ -22,7 +22,7 @@ private:
     string name;
     string password;
     list<shared_ptr<Reservation>> reservs;
-    District distric;
+    shared_ptr<District> distric;
 
 };
 

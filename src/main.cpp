@@ -1,10 +1,10 @@
 #include "Utaste.hpp"
-#include "constants.hpp"
-#include "libraries.hpp"
 
 int main()
 {
-
+    string path = "./Districts.csv";
+    UTaste program;
+    program.loadDistrictsData(path);
 
     return 0;
 }

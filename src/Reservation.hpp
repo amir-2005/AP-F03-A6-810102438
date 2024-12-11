@@ -7,6 +7,8 @@ class Reservation;
 #include "constants.hpp"
 #include "User.hpp"
 
+using namespace std;
+
 class Reservation
 {
 public:

@@ -6,7 +6,7 @@ User::User(string _name, string _password)
     password = password;
 }
 
-void User::setDistrict(District current_district)
+void User::setDistrict(shared_ptr<District> current_district)
 {
     distric = current_district;
 }
