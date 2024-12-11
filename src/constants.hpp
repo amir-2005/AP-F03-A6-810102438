@@ -3,7 +3,7 @@
 
 #include "libraries.hpp"
 
-typedef string food;
-typedef pair<unsigned,unsigned> time_period; 
+typedef std::string food;
+typedef std::pair<unsigned,unsigned> time_period; 
 
 #endif

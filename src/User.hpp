@@ -1,6 +1,8 @@
 #ifndef User_HPP
 #define User_HPP
 
+class User;
+
 #include "libraries.hpp"
 #include "Reservation.hpp"
 #include "constants.hpp"
