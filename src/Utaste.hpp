@@ -9,8 +9,9 @@
 class UTaste
 {
 public:
-    UTaste();
+    UTaste(string path_to_restaurants, string path_to_districts);
     void loadDistrictsData(string path_to_districts);
+    void loadRestaurantData(string path_to_restaurants);
     void login(string username, string password);
     void logout();
     string getDistrictsInfo(string district_name);

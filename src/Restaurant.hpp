@@ -16,12 +16,12 @@ public:
     void reserveTable(Reservation reserve, int table_id);
     void deleteReservation(Reservation reserve);
     string getInfo();
+    string name;
 
 private:
-    string name;
     map<food, int> menu;
     vector<shared_ptr<Reservation>> tables;
-    time_period open_time;
+    time_period working_time;
 };
 
 #endif

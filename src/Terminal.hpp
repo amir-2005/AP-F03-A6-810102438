@@ -3,6 +3,7 @@
 
 #include "libraries.hpp"
 #include "constants.hpp"
+#include "Exceptions.hpp"
 
 using namespace std;
 
@@ -12,8 +13,10 @@ public:
     Terminal();
 
 private:
-    string input;
-    vector<string> args;
+    string command;
+    string command_type;
+    map<string, string> args;
+    void storeCommandArgs(string input);
 };
 
 #endif
