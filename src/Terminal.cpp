@@ -9,98 +9,46 @@ Terminal::Terminal(UTaste _utaste) : utaste(_utaste)
         try
         {
             extractCommandArgs(input);
-
             if (command_type == POST_COMMAND_TYPE && command == SIGNUP_COMMAND)
             {
-                if (args.find(ARG_KEY_USERNAME) == args.end() || args.find(ARG_KEY_PASSWORD) == args.end())
-                    throw(BadRequest("invalid arguments for sign up"));
-
-                utaste.signUp(args[ARG_KEY_USERNAME], args[ARG_KEY_PASSWORD]);
-                cout << SUCCESS_MSG << endl;
+                handleSignUp();
             }
-
             else if (command_type == POST_COMMAND_TYPE && command == LOGIN_COMMAND)
             {
-                if (args.find(ARG_KEY_USERNAME) == args.end() || args.find(ARG_KEY_PASSWORD) == args.end())
-                    throw(BadRequest("invalid arguments for login"));
-
-                utaste.login(args[ARG_KEY_USERNAME], args[ARG_KEY_PASSWORD]);
-                cout << SUCCESS_MSG << endl;
+                handleLogin();
             }
-
             else if (command_type == POST_COMMAND_TYPE && command == LOGOUT_COMMAND)
             {
-                if (!args.empty())
-                    throw(BadRequest("invalid arguments for logout"));
-
-                utaste.logout();
-                cout << SUCCESS_MSG << endl;
+                handleLogout();
             }
-
             else if (command_type == PUT_COMMAND_TYPE && command == MY_DISTRICT_COMMAND)
             {
-                if (args.find(ARG_KEY_DISTRICT) == args.end())
-                    throw(BadRequest("invalid arguments for my_district"));
-
-                utaste.setUserDistrict(args[ARG_KEY_DISTRICT]);
-                cout << SUCCESS_MSG << endl;
+                handleMyDistrict();
             }
-
             else if (command_type == POST_COMMAND_TYPE && command == RESERVE_COMMAND)
             {
-                if (args.find(ARG_KEY_RESTAURANT_NAME) == args.end() ||
-                    args.find(ARG_KEY_TABLE_ID) == args.end() ||
-                    args.find(ARG_KEY_START_TIME) == args.end() ||
-                    args.find(ARG_KEY_END_TIME) == args.end())
-                    throw(BadRequest("invalid arguments for reserve"));
-
-                time_period reserve_time = make_pair(stoi(args[ARG_KEY_START_TIME]), stoi(args[ARG_KEY_END_TIME]));
-                stringstream ss(args[ARG_KEY_FOODS]);
-                map<food, int> reserve_foods;
-                string token;
-
-                while (getline(ss, token, DELIM))
-                    reserve_foods[token]++;
-
-                cout << utaste.setReservation(args[ARG_KEY_RESTAURANT_NAME], stoi(args[ARG_KEY_TABLE_ID]), reserve_time, reserve_foods);
+                handleReserve();
             }
-
             else if (command_type == GET_COMMAND_TYPE && command == DISTRICTS_COMMAND)
             {
-                cout << utaste.getDistrictsInfo(args[ARG_KEY_DISTRICT]);
+                handleShowDistricts();
             }
-
             else if (command_type == GET_COMMAND_TYPE && command == RESTAURANTS_COMMAND)
             {
-                cout << utaste.getRestaurantsList(args[ARG_KEY_FOOD_NAME]);
+                handleShowRestaurants();
             }
-
             else if (command_type == GET_COMMAND_TYPE && command == RESTAURANT_DETAIL_COMMAND)
             {
-                cout << utaste.getRestaurantInfo(args[ARG_KEY_RESTAURANT_NAME]);
+                handleRestaurantDetail();
             }
-
             else if (command_type == GET_COMMAND_TYPE && command == SHOW_RESERVES_COMMAND)
             {
-                if (args.find(ARG_KEY_RESERVE_ID) != args.end() && args.find(ARG_KEY_RESTAURANT_NAME) == args.end())
-                    throw(BadRequest("restaurant should be specified"));
-
-                int reserve_id=0;
-                if (!args[ARG_KEY_RESERVE_ID].empty())
-                    reserve_id = stoi(args[ARG_KEY_RESERVE_ID]);
-        
-                cout << utaste.showReservations(args[ARG_KEY_RESTAURANT_NAME], reserve_id);
+                handleShowReserves();
             }
-
             else if (command_type == DELETE_COMMAND_TYPE && command == RESERVE_COMMAND)
             {
-                if (args.find(ARG_KEY_RESERVE_ID) == args.end() || args.find(ARG_KEY_RESTAURANT_NAME) == args.end())
-                    throw(BadRequest("reserve id and restaurant name should be specified"));
-        
-                utaste.deleteReservation(args[ARG_KEY_RESTAURANT_NAME], stoi(args[ARG_KEY_RESERVE_ID]));
-                cout << SUCCESS_MSG << endl;
+                handleDeleteReserve();
             }
-
         }
         catch (const exception &e)
         {
@@ -144,4 +92,95 @@ void Terminal::extractCommandArgs(string input)
         argument.erase(argument.end() - 1);
         args[key] = argument;
     }
+}
+
+void Terminal::handleSignUp()
+{
+    if (args.find(ARG_KEY_USERNAME) == args.end() || args.find(ARG_KEY_PASSWORD) == args.end())
+        throw(BadRequest("invalid arguments for sign up"));
+
+    utaste.signUp(args[ARG_KEY_USERNAME], args[ARG_KEY_PASSWORD]);
+    cout << SUCCESS_MSG << endl;
+}
+
+void Terminal::handleLogin()
+{
+    if (args.find(ARG_KEY_USERNAME) == args.end() || args.find(ARG_KEY_PASSWORD) == args.end())
+        throw(BadRequest("invalid arguments for login"));
+
+    utaste.login(args[ARG_KEY_USERNAME], args[ARG_KEY_PASSWORD]);
+    cout << SUCCESS_MSG << endl;
+}
+
+void Terminal::handleLogout()
+{
+    if (!args.empty())
+        throw(BadRequest("invalid arguments for logout"));
+
+    utaste.logout();
+    cout << SUCCESS_MSG << endl;
+}
+
+void Terminal::handleMyDistrict()
+{
+    if (args.find(ARG_KEY_DISTRICT) == args.end())
+        throw(BadRequest("invalid arguments for my_district"));
+
+    utaste.setUserDistrict(args[ARG_KEY_DISTRICT]);
+    cout << SUCCESS_MSG << endl;
+}
+
+void Terminal::handleReserve()
+{
+    if (args.find(ARG_KEY_RESTAURANT_NAME) == args.end() ||
+        args.find(ARG_KEY_TABLE_ID) == args.end() ||
+        args.find(ARG_KEY_START_TIME) == args.end() ||
+        args.find(ARG_KEY_END_TIME) == args.end())
+        throw(BadRequest("invalid arguments for reserve"));
+
+    time_period reserve_time = make_pair(stoi(args[ARG_KEY_START_TIME]), stoi(args[ARG_KEY_END_TIME]));
+    stringstream ss(args[ARG_KEY_FOODS]);
+    map<food, int> reserve_foods;
+    string token;
+
+    while (getline(ss, token, DELIM))
+        reserve_foods[token]++;
+
+    cout << utaste.setReservation(args[ARG_KEY_RESTAURANT_NAME], stoi(args[ARG_KEY_TABLE_ID]), reserve_time, reserve_foods);
+}
+
+void Terminal::handleShowDistricts()
+{
+    cout << utaste.getDistrictsInfo(args[ARG_KEY_DISTRICT]);
+}
+
+void Terminal::handleShowRestaurants()
+{
+    cout << utaste.getRestaurantsList(args[ARG_KEY_FOOD_NAME]);
+}
+
+void Terminal::handleRestaurantDetail()
+{
+    cout << utaste.getRestaurantInfo(args[ARG_KEY_RESTAURANT_NAME]);
+}
+
+void Terminal::handleShowReserves()
+{
+    if (args.find(ARG_KEY_RESERVE_ID) != args.end() && args.find(ARG_KEY_RESTAURANT_NAME) == args.end())
+        throw(BadRequest("restaurant should be specified"));
+
+    int reserve_id = 0;
+    if (!args[ARG_KEY_RESERVE_ID].empty())
+        reserve_id = stoi(args[ARG_KEY_RESERVE_ID]);
+
+    cout << utaste.showReservations(args[ARG_KEY_RESTAURANT_NAME], reserve_id);
+}
+
+void Terminal::handleDeleteReserve()
+{
+    if (args.find(ARG_KEY_RESERVE_ID) == args.end() || args.find(ARG_KEY_RESTAURANT_NAME) == args.end())
+        throw(BadRequest("reserve id and restaurant name should be specified"));
+
+    utaste.deleteReservation(args[ARG_KEY_RESTAURANT_NAME], stoi(args[ARG_KEY_RESERVE_ID]));
+    cout << SUCCESS_MSG << endl;
 }

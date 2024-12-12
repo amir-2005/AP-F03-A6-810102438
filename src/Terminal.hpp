@@ -19,6 +19,17 @@ private:
     string command_type;
     map<string, string> args;
     void extractCommandArgs(string input);
+    void handleSignUp();
+    void handleLogin();
+    void handleLogout();
+    void handleMyDistrict();
+    void handleShowDistricts();
+    void handleShowRestaurants();
+    void handleRestaurantDetail();
+    void handleShowReserves();
+    void handleReserve();
+    void handleDeleteReserve();
+
 };
 
 #endif
