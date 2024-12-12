@@ -156,6 +156,9 @@ void UTaste::setReservation(string restaurant_name, int table_id, time_period re
     if (logged_in == false)
         throw(PermissionDenied("no user has logged in"));
 
+    if (!current_user->canReserveInThisTime(reserve_time))
+        throw(PermissionDenied("reservation time interference occurs"));
+
     shared_ptr<Reservation> reservation = make_shared<Reservation>(restaurant_name, reserve_time, foods, current_user);
     for (auto rest : rests)
         if (rest->name == restaurant_name)

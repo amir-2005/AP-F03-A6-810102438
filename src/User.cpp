@@ -16,6 +16,15 @@ void User::addReservation(shared_ptr<Reservation> reservation)
     reservs.push_back(reservation); 
 }
 
+bool User::canReserveInThisTime(time_period new_time)
+{
+    for (auto r:reservs)
+        if (r->checkTimeInterference(new_time , false))
+            return false;
+
+    return true;
+}
+
 void User::removeReservation(shared_ptr<Reservation> reservation)
 {
     reservs.remove(reservation);
