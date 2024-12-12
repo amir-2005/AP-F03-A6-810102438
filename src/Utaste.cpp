@@ -76,15 +76,21 @@ void UTaste::loadDistrictsData(string path_to_districts)
         districts.push_back(make_shared<District>(district_name));
 
         while (getline(ss, neighbor_name, INNER_DELIM))
-        {
             neighbors[i].push_back(neighbor_name);
-        }
 
         i++;
     }
 
-    // TODO : SORT DISTRICT VECTOR
+    for (int i = 0; i < districts.size(); i++)
+        for (auto name : neighbors[i])
+            for (auto d : districts)
+                if (name == d->name)
+                    districts[i]->neighbors.push_back(d);
+
     districts_file.close();
+
+    sort(districts.begin(), districts.end(), [](shared_ptr<District> &a, shared_ptr<District> &b)
+         { return a->name < b->name; });
 }
 
 void UTaste::addUser(string username, string password)
@@ -132,7 +138,7 @@ void UTaste::logout()
 
 void UTaste::setUserDistrict(string district_name)
 {
-    for (auto d:districts)
+    for (auto d : districts)
         if (d->name == district_name)
         {
             current_user->setDistrict(d);
@@ -144,7 +150,7 @@ void UTaste::setUserDistrict(string district_name)
 
 void UTaste::setReservation(string restaurant_name, int table_id, time_period reserve_time, vector<food> foods)
 {
-    // TODO : create reservaion id for each reserve at restaurant class , 
+    // TODO : create reservaion id for each reserve at restaurant class ,
     // shared_ptr<Reservation> resrvation = make_sahred(restaurant_name, )
 }
 

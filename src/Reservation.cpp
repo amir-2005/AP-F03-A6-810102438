@@ -19,7 +19,7 @@ string Reservation::getInfo()
     return output;
 }
 
-bool Reservation :: checkTimeInterference(time_period time_limit, bool shoud_be_in = false)
+bool Reservation :: checkTimeInterference(time_period time_limit, bool shoud_be_in)
 {
     if (shoud_be_in)
         return (time.second > time_limit.second) || (time.first < time_limit.first);
