@@ -16,7 +16,7 @@ string Reservation::getTotalInfo()
     output += to_string(time.first) + "-" + to_string(time.second);
     for (auto f : foods)
         output += " " + f.first + "(" + to_string(f.second) + ")";
-    output = "\n";
+    output += "\n";
     return output;
 }
 
@@ -41,4 +41,9 @@ bool Reservation::checkTimeInterference(time_period time_limit, bool shoud_be_in
         return (time.second > time_limit.second) || (time.first < time_limit.first);
     else
         return (time.second > time_limit.first) || (time.first < time_limit.second);
+}
+
+bool Reservation::operator<(const Reservation& other)
+{
+    return time.first < other.time.first;
 }

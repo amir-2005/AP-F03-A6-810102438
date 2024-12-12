@@ -17,6 +17,7 @@ public:
     string getInfo();
     string getTime();
     bool checkTimeInterference(time_period time_limit, bool shoud_be_in = false);
+    bool operator<(const Reservation& other);
     string restaurant_name;
     map<food, int> foods;
     int id;

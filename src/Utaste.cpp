@@ -271,6 +271,11 @@ void UTaste::restaurantBFS(shared_ptr<District> district, vector<string> &visite
     }
 }
 
+string UTaste::showReservations(string restaurant_name, int reserve_id)
+{
+    return current_user->getReservationsInfo(restaurant_name, reserve_id);
+}
+
 // void UTaste::test()
 // {
 //     if (current_user == nullptr)

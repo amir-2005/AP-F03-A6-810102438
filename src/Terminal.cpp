@@ -80,6 +80,15 @@ Terminal::Terminal(UTaste _utaste) : utaste(_utaste)
                 cout << utaste.getRestaurantInfo(args[ARG_KEY_RESTAURANT_NAME]);
             }
 
+            else if (command_type == GET_COMMAND_TYPE && command == SHOW_RESERVES_COMMAND)
+            {
+                int reserve_id=0;
+                if (!args[ARG_KEY_RESERVE_ID].empty())
+                    reserve_id = stoi(args[ARG_KEY_RESERVE_ID]);
+        
+                cout << utaste.showReservations(args[ARG_KEY_RESTAURANT_NAME], reserve_id);
+            }
+
         }
         catch (const exception &e)
         {

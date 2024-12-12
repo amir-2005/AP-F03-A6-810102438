@@ -21,7 +21,7 @@ public:
     string getRestaurantsList(food food);
     string getRestaurantInfo(string restaurant_name);
     string setReservation(string restaurant_name, int table_id, time_period reserve_time, map<food, int> foods);
-    void showReservations(string restaurant_name, int reserve_id);
+    string showReservations(string restaurant_name, int reserve_id);
     void deleteReservation(string restaurant_name, int reserve_id);
 
     void test();
