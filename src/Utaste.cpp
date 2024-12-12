@@ -138,6 +138,9 @@ void UTaste::logout()
 
 void UTaste::setUserDistrict(string district_name)
 {
+    if (logged_in == false)
+        throw(PermissionDenied("no user has logged in"));
+
     for (auto d : districts)
         if (d->name == district_name)
         {
@@ -148,14 +151,26 @@ void UTaste::setUserDistrict(string district_name)
     throw(NotFound("district not found"));
 }
 
-void UTaste::setReservation(string restaurant_name, int table_id, time_period reserve_time, vector<food> foods)
+void UTaste::setReservation(string restaurant_name, int table_id, time_period reserve_time, map<food, int> foods)
 {
-    // TODO : create reservaion id for each reserve at restaurant class ,
-    // shared_ptr<Reservation> resrvation = make_sahred(restaurant_name, )
+    if (logged_in == false)
+        throw(PermissionDenied("no user has logged in"));
+
+    shared_ptr<Reservation> reservation = make_shared<Reservation>(restaurant_name, reserve_time, foods, current_user);
+    for (auto rest : rests)
+        if (rest->name == restaurant_name)
+        {
+            reservation->id = rest->reserveTable(reservation, table_id);
+            current_user->addReservation(reservation);
+            return;
+        }
+    throw(NotFound("restaurant not found"));
 }
 
 // void UTaste::test()
 // {
-//     for (auto u:users)
-//         cout << "test" << u->getName() << endl;
+//     if (current_user == nullptr)
+//         return;
+//     for (auto r : current_user->reservs)
+//         cout << r->restaurant_name << ":" << r->id << endl;
 // }

@@ -13,7 +13,7 @@ void User::setDistrict(shared_ptr<District> current_district)
 
 void User::addReservation(shared_ptr<Reservation> reservation)
 {
-    reservs.push_back(reservation);
+    reservs.push_back(reservation); 
 }
 
 void User::removeReservation(shared_ptr<Reservation> reservation)

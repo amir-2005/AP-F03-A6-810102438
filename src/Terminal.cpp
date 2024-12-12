@@ -46,7 +46,7 @@ Terminal::Terminal(UTaste _utaste) : utaste(_utaste)
                 cout << SUCCESS_MSG << endl;
             }
 
-            else if (command_type == PUT_COMMAND_TYPE && command == RESERVE_COMMAND)
+            else if (command_type == POST_COMMAND_TYPE && command == RESERVE_COMMAND)
             {
                 if (args.find(ARG_KEY_RESTAURANT_NAME) == args.end() ||
                     args.find(ARG_KEY_TABLE_ID) == args.end() ||
@@ -56,11 +56,11 @@ Terminal::Terminal(UTaste _utaste) : utaste(_utaste)
 
                 time_period reserve_time = make_pair(stoi(args[ARG_KEY_START_TIME]), stoi(args[ARG_KEY_END_TIME]));
                 stringstream ss(args[ARG_KEY_FOODS]);
-                vector<food> reserve_foods;
+                map<food, int> reserve_foods;
                 string token;
 
                 while (getline(ss, token, DELIM))
-                    reserve_foods.push_back(token);
+                    reserve_foods[token]++;
 
                 utaste.setReservation(args[ARG_KEY_RESTAURANT_NAME], stoi(args[ARG_KEY_TABLE_ID]), reserve_time, reserve_foods);
                 cout << SUCCESS_MSG << endl;

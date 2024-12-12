@@ -19,7 +19,7 @@ public:
     string getDistrictsInfo(string district_name);
     void setUserDistrict(string district_name);
     string getRestaurantsInfo(food name);
-    void setReservation(string restaurant_name, int table_id, time_period reserve_time, vector<food> foods);
+    void setReservation(string restaurant_name, int table_id, time_period reserve_time, map<food, int> foods);
     void showReservations(string restaurant_name, int reserve_id);
     void deleteReservation(string restaurant_name, int reserve_id);
 
