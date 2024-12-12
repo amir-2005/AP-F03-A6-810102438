@@ -20,12 +20,15 @@ void Restaurant::reserveTable(shared_ptr<Reservation> reserve, int table_id)
             throw(NotFound("food is not availble"));
 
     if (reserve->checkTimeInterference(working_time, true))
+    {
         throw(PermissionDenied("reserve time out of working hours"));
-
+    }
     for (auto r : tables[table_id - 1])
-        if (reserve->checkTimeInterference(working_time, false))
+        if (reserve->checkTimeInterference(r, false))
+        {
+            cout << "----------------here-------------\n";
             throw(PermissionDenied("table is reserved"));
-
+        }
     int bill = 0;
 
     tables[table_id - 1].push_back(reserve);
@@ -57,7 +60,7 @@ string Restaurant::getInfo()
 
     for (int i = 0; i < tables.size(); i++)
     {
-        output += to_string(i+1) + ": ";
+        output += to_string(i + 1) + ": ";
         for (auto r : tables[i])
             output += r->getTime() + ", ";
         output.erase(output.size() - 2);

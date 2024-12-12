@@ -17,6 +17,7 @@ public:
     void addReservation(shared_ptr<Reservation> reservation);
     void removeReservation(shared_ptr<Reservation> reservation);
     bool canReserveInThisTime(time_period new_time);
+    bool hasThisReservation(string restaurant_name, int reserve_id);
     string getReservationsInfo(string restaurant_name, int id);
     string getName() { return name; };
     string getPassword() { return password; };
@@ -26,7 +27,6 @@ private:
     list<shared_ptr<Reservation>> reservs;
     string name;
     string password;
-    void sortReservation();
 };
 
 #endif

@@ -82,6 +82,9 @@ Terminal::Terminal(UTaste _utaste) : utaste(_utaste)
 
             else if (command_type == GET_COMMAND_TYPE && command == SHOW_RESERVES_COMMAND)
             {
+                if (args.find(ARG_KEY_RESERVE_ID) != args.end() && args.find(ARG_KEY_RESTAURANT_NAME) == args.end())
+                    throw(BadRequest("restaurant should be specified"));
+
                 int reserve_id=0;
                 if (!args[ARG_KEY_RESERVE_ID].empty())
                     reserve_id = stoi(args[ARG_KEY_RESERVE_ID]);

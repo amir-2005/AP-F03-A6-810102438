@@ -23,8 +23,10 @@ bool User::canReserveInThisTime(time_period new_time)
 
     for (auto r : reservs)
         if (r->checkTimeInterference(new_time, false))
+        {
+            cout << "--------------here----------------";
             return false;
-
+        }
     return true;
 }
 
@@ -35,6 +37,9 @@ void User::removeReservation(shared_ptr<Reservation> reservation)
 
 string User::getReservationsInfo(string restaurant_name, int id)
 {
+    if (reservs.empty())
+        throw(Empty("there is no reservation"));
+
     reservs.sort();
     string output = "";
     for (auto r : reservs)
@@ -42,5 +47,16 @@ string User::getReservationsInfo(string restaurant_name, int id)
             if (id == 0 || r->id == id)
                 output += r->getTotalInfo();
 
+    if (output.empty())
+        throw(NotFound(restaurant_name + to_string(id) + MSG_NOT_FOUND));
+
     return output;
+}
+
+bool User::hasThisReservation(string restaurant_name, int reserve_id)
+{
+    for (auto r : reservs)
+        if ((r->restaurant_name == restaurant_name) && (r->id = reserve_id))
+            return true;
+    return false;
 }

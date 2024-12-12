@@ -35,12 +35,20 @@ string Reservation::getTime()
     return "(" + to_string(time.first) + "-" + to_string(time.second) + ")";
 }
 
-bool Reservation::checkTimeInterference(time_period time_limit, bool shoud_be_in)
+bool Reservation::checkTimeInterference(time_period time_limit, bool shoud_be_in_period)
 {
-    if (shoud_be_in)
+    if (shoud_be_in_period)
         return (time.second > time_limit.second) || (time.first < time_limit.first);
     else
-        return (time.second > time_limit.first) || (time.first < time_limit.second);
+        return (time.first < time_limit.second) && (time.second > time_limit.first);
+}
+
+bool Reservation::checkTimeInterference(shared_ptr<Reservation> other_reserve, bool shoud_be_in_period)
+{
+    if (shoud_be_in_period)
+        return (time.second > other_reserve->time.second) || (time.first < other_reserve->time.first);
+    else
+        return (time.first < other_reserve->time.second) && (time.second > other_reserve->time.first);
 }
 
 bool Reservation::operator<(const Reservation& other)

@@ -166,7 +166,6 @@ string UTaste::setReservation(string restaurant_name, int table_id, time_period 
 
     if (!current_user->canReserveInThisTime(reserve_time))
         throw(PermissionDenied("reservation time is invalid"));
-
     shared_ptr<Reservation> reservation = make_shared<Reservation>(restaurant_name, table_id, reserve_time, foods, current_user);
     for (auto rest : rests)
         if (rest->name == restaurant_name)
@@ -273,6 +272,10 @@ void UTaste::restaurantBFS(shared_ptr<District> district, vector<string> &visite
 
 string UTaste::showReservations(string restaurant_name, int reserve_id)
 {
+    for (auto user:users)
+        if (user != current_user && user->hasThisReservation(restaurant_name, reserve_id))
+            throw(PermissionDenied("the reservation is belong to someone else"));
+
     return current_user->getReservationsInfo(restaurant_name, reserve_id);
 }
 

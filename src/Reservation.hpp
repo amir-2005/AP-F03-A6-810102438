@@ -16,7 +16,8 @@ public:
     string getTotalInfo();
     string getInfo();
     string getTime();
-    bool checkTimeInterference(time_period time_limit, bool shoud_be_in = false);
+    bool checkTimeInterference(time_period time_limit, bool shoud_be_in_period);
+    bool checkTimeInterference(shared_ptr<Reservation> other_reserve, bool shoud_be_in_period);
     bool operator<(const Reservation& other);
     string restaurant_name;
     map<food, int> foods;
