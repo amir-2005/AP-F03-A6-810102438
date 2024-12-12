@@ -30,7 +30,12 @@ string Reservation::getInfo()
     return output;
 }
 
-bool Reservation ::checkTimeInterference(time_period time_limit, bool shoud_be_in)
+string Reservation::getTime()
+{
+    return "(" + to_string(time.first) + "-" + to_string(time.second) + ")";
+}
+
+bool Reservation::checkTimeInterference(time_period time_limit, bool shoud_be_in)
 {
     if (shoud_be_in)
         return (time.second > time_limit.second) || (time.first < time_limit.first);

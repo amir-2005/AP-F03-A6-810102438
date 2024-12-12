@@ -42,3 +42,27 @@ bool Restaurant::isInMenu(const food &name)
 {
     return (menu.find(name) != menu.end());
 }
+
+string Restaurant::getInfo()
+{
+    string output = "";
+    output += "Name: " + name + "\n";
+    output += "District: " + district_name + "\n";
+    output += "Time: " + to_string(working_time.first) + "-" + to_string(working_time.second) + "\n";
+    output += "Menu: ";
+    for (auto item : menu)
+        output += item.first + "(" + to_string(item.second) + "), ";
+    output.erase(output.size() - 2);
+    output += "\n";
+
+    for (int i = 0; i < tables.size(); i++)
+    {
+        output += to_string(i+1) + ": ";
+        for (auto r : tables[i])
+            output += r->getTime() + ", ";
+        output.erase(output.size() - 2);
+        output += "\n";
+    }
+
+    return output;
+}

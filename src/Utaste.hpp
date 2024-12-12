@@ -18,7 +18,8 @@ public:
     void logout();
     string getDistrictsInfo(string district_name);
     void setUserDistrict(string district_name);
-    string getRestaurantsInfo(food name);
+    string getRestaurantsList(food food);
+    string getRestaurantInfo(string restaurant_name);
     string setReservation(string restaurant_name, int table_id, time_period reserve_time, map<food, int> foods);
     void showReservations(string restaurant_name, int reserve_id);
     void deleteReservation(string restaurant_name, int reserve_id);
@@ -32,7 +33,7 @@ private:
     vector<shared_ptr<District>> districts;
     bool logged_in = false;
 
-    void restaurantBFS(shared_ptr<District> district, vector<string>& visited, string& output, food& name);
+    void restaurantBFS(shared_ptr<District> district, vector<string>& visited, string& output, food& food);
     
 };
 

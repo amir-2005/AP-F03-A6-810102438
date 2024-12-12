@@ -39,7 +39,7 @@ string User::getReservationInfo(string restaurant_name, int id)
     for (auto r : reservs)
         if (restaurant_name.empty() || r->restaurant_name == restaurant_name)
             if (id == 0 || r->id == id)
-                output += r->getInfo() + "\n";
+                output += r->getTotalInfo() + "\n";
 
     return output;
 }

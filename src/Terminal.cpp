@@ -72,7 +72,12 @@ Terminal::Terminal(UTaste _utaste) : utaste(_utaste)
 
             else if (command_type == GET_COMMAND_TYPE && command == RESTAURANTS_COMMAND)
             {
-                cout << utaste.getRestaurantsInfo(args[ARG_KEY_FOOD_NAME]);
+                cout << utaste.getRestaurantsList(args[ARG_KEY_FOOD_NAME]);
+            }
+
+            else if (command_type == GET_COMMAND_TYPE && command == RESTAURANT_DETAIL_COMMAND)
+            {
+                cout << utaste.getRestaurantInfo(args[ARG_KEY_RESTAURANT_NAME]);
             }
 
         }
@@ -93,7 +98,7 @@ void Terminal::extractCommandArgs(string input)
         throw(BadRequest("invalid main command"));
 
     ss >> command;
-    if (find(COMMAND_TYPES.begin(), COMMAND_TYPES.end(), command) == COMMANDS.end())
+    if (find(COMMANDS.begin(), COMMANDS.end(), command) == COMMANDS.end())
         throw(BadRequest("invalid main command"));
 
     ss >> temp;

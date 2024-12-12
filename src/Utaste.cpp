@@ -217,7 +217,7 @@ string UTaste::getDistrictsInfo(string district_name)
     return output;
 }
 
-string UTaste::getRestaurantsInfo(food name)
+string UTaste::getRestaurantsList(food food)
 {
     if (logged_in == false)
         throw(PermissionDenied("no user has logged in"));
@@ -228,26 +228,46 @@ string UTaste::getRestaurantsInfo(food name)
     vector<string> visited;
     string output = "";
 
-    restaurantBFS(current_user->distric, visited, output, name);
+    restaurantBFS(current_user->distric, visited, output, food);
 
     if (output.empty())
-        output += "\n";
+        throw(Empty("no restaurant with this food :" + food));
 
     return output;
 }
 
-void UTaste::restaurantBFS(shared_ptr<District> district, vector<string> &visited, string &output, food &name)
+string UTaste::getRestaurantInfo(string restaurant_name)
+{
+    if (logged_in == false)
+        throw(PermissionDenied("no user has logged in"));
+
+    shared_ptr<Restaurant> restaurant;
+
+    for (auto r: rests)
+        if (r->name == restaurant_name)
+        {
+            restaurant = r;
+            break;
+        }
+
+    if (restaurant == nullptr)
+        throw(NotFound(restaurant_name + MSG_NOT_FOUND));
+
+    return restaurant->getInfo();
+}
+
+void UTaste::restaurantBFS(shared_ptr<District> district, vector<string> &visited, string &output, food &food)
 {
     if (find(visited.begin(), visited.end(), district->name) == visited.end())
     {
         for (auto r : district->rests)
         {
-            if (name.empty() || (r->isInMenu(name)))
+            if (food.empty() || (r->isInMenu(food)))
                 output += r->name + "(" + district->name + ")\n";
         }
         visited.push_back(district->name);
         for (auto n: district->neighbors)
-            restaurantBFS(n, visited, output, name);
+            restaurantBFS(n, visited, output, food);
     }
 }
 
