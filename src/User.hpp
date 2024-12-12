@@ -15,7 +15,7 @@ public:
     User(string _name, string _password);
     void setDistrict(shared_ptr<District> current_distric);
     void addReservation(shared_ptr<Reservation> reservation);
-    void removeReservation(shared_ptr<Reservation> reservation);
+    void removeReservation(string restaurnat_name, int reserve_id);
     bool canReserveInThisTime(time_period new_time);
     bool hasThisReservation(string restaurant_name, int reserve_id);
     string getReservationsInfo(string restaurant_name, int id);

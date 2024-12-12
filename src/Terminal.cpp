@@ -92,6 +92,15 @@ Terminal::Terminal(UTaste _utaste) : utaste(_utaste)
                 cout << utaste.showReservations(args[ARG_KEY_RESTAURANT_NAME], reserve_id);
             }
 
+            else if (command_type == DELETE_COMMAND_TYPE && command == RESERVE_COMMAND)
+            {
+                if (args.find(ARG_KEY_RESERVE_ID) == args.end() || args.find(ARG_KEY_RESTAURANT_NAME) == args.end())
+                    throw(BadRequest("reserve id and restaurant name should be specified"));
+        
+                utaste.deleteReservation(args[ARG_KEY_RESTAURANT_NAME], stoi(args[ARG_KEY_RESERVE_ID]));
+                cout << SUCCESS_MSG << endl;
+            }
+
         }
         catch (const exception &e)
         {

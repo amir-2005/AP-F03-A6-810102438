@@ -15,7 +15,7 @@ class Restaurant
 public:
     Restaurant(string _name, string district_name ,int tabels_num, map<string, int> _menu, int open_time, int close_time);
     void reserveTable(shared_ptr<Reservation> reserve, int table_id);
-    void deleteReservation(Reservation reserve);
+    void removeReservation(int reserve_id);
     string getInfo();
     string name;
     string district_name;

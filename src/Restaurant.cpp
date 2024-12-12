@@ -38,7 +38,7 @@ void Restaurant::reserveTable(shared_ptr<Reservation> reserve, int table_id)
     for (auto f : reserve->foods)
         bill += menu[f.first] * f.second;
 
-    reserve->bill = bill;
+    reserve->setBill(bill);
 }
 
 bool Restaurant::isInMenu(const food &name)
@@ -68,4 +68,14 @@ string Restaurant::getInfo()
     }
 
     return output;
+}
+
+void Restaurant::removeReservation(int reserve_id)
+{
+    for (auto table:tables)
+        for (auto r:table)
+            if (r->id == reserve_id)
+                table.erase(std::remove(table.begin(), table.end(), r), table.end());
+    
+    throw(NotFound(name + to_string(reserve_id) + MSG_NOT_FOUND));
 }

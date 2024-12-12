@@ -1,12 +1,11 @@
 #include "Reservation.hpp"
 
-Reservation::Reservation(string _restaurant_name, int _table_id, time_period _time, map<food, int> _foods, shared_ptr<User> _user)
+Reservation::Reservation(string _restaurant_name, int _table_id, time_period _time, map<food, int> _foods)
 {
     restaurant_name = _restaurant_name;
     table_id = _table_id;
     time = _time;
     foods = _foods;
-    user = _user;
 }
 
 string Reservation::getTotalInfo()

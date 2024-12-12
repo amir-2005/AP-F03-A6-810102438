@@ -6,3 +6,6 @@ POST reserve ? restaurant_name "sib" table_id "3" start_time "9" end_time "12" f
 POST reserve ? restaurant_name "sib" table_id "3" start_time "13" end_time "14" foods "pitza,pitza"
 GET restaurant_detail ? restaurant_name "sib"
 GET reserves ?
+DELETE reserve ? restaurant_name "sib" reserve_id "2"
+DELETE reserve ? restaurant_name "sib" reserve_id "11"
+GET reserves ?

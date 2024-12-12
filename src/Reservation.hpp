@@ -12,7 +12,7 @@ using namespace std;
 class Reservation
 {
 public:
-    Reservation(string _restaurant_name, int _table_id, time_period _time, map<food, int> _foods, shared_ptr<User> _user);
+    Reservation(string _restaurant_name, int _table_id, time_period _time, map<food, int> _foods);
     string getTotalInfo();
     string getInfo();
     string getTime();
@@ -22,11 +22,11 @@ public:
     string restaurant_name;
     map<food, int> foods;
     int id;
-    int bill;
+    void setBill(int _bill) {bill = _bill;};
 
 private:
+    int bill;
     time_period time;
-    shared_ptr<User> user;
     int table_id;
 };
 

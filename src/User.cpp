@@ -30,9 +30,16 @@ bool User::canReserveInThisTime(time_period new_time)
     return true;
 }
 
-void User::removeReservation(shared_ptr<Reservation> reservation)
+void User::removeReservation(string restaurnat_name, int reserve_id)
 {
-    reservs.remove(reservation);
+    for (auto r : reservs)
+        if ((r->restaurant_name == restaurnat_name) && (r->id == reserve_id))
+        {
+            reservs.remove(r);
+            return;
+        }
+
+    throw(NotFound(restaurnat_name + to_string(reserve_id) + MSG_NOT_FOUND));
 }
 
 string User::getReservationsInfo(string restaurant_name, int id)
