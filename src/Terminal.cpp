@@ -15,7 +15,7 @@ Terminal::Terminal(UTaste _utaste) : utaste(_utaste)
                 if (args.find(ARG_KEY_USERNAME) == args.end() || args.find(ARG_KEY_PASSWORD) == args.end())
                     throw(BadRequest("invalid arguments for sign up"));
 
-                utaste.addUser(args[ARG_KEY_USERNAME], args[ARG_KEY_PASSWORD]);
+                utaste.signUp(args[ARG_KEY_USERNAME], args[ARG_KEY_PASSWORD]);
                 cout << SUCCESS_MSG << endl;
             }
 
@@ -69,6 +69,12 @@ Terminal::Terminal(UTaste _utaste) : utaste(_utaste)
             {
                 cout << utaste.getDistrictsInfo(args[ARG_KEY_DISTRICT]);
             }
+
+            else if (command_type == GET_COMMAND_TYPE && command == RESTAURANTS_COMMAND)
+            {
+                cout << utaste.getRestaurantsInfo(args[ARG_KEY_FOOD_NAME]);
+            }
+
         }
         catch (const exception &e)
         {
@@ -109,7 +115,6 @@ void Terminal::extractCommandArgs(string input)
         }
 
         argument += token;
-
         argument.erase(argument.end() - 1);
         args[key] = argument;
     }

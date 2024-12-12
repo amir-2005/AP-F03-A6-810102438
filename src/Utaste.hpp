@@ -13,7 +13,7 @@ public:
     UTaste(string path_to_restaurants, string path_to_districts);
     void loadDistrictsData(string path_to_districts);
     void loadRestaurantData(string path_to_restaurants);
-    void addUser(string username, string password);
+    void signUp(string username, string password);
     void login(string username, string password);
     void logout();
     string getDistrictsInfo(string district_name);
@@ -31,6 +31,9 @@ private:
     list<shared_ptr<Restaurant>> rests;
     vector<shared_ptr<District>> districts;
     bool logged_in = false;
+
+    void restaurantBFS(shared_ptr<District> district, vector<string>& visited, string& output, food& name);
+    
 };
 
 #endif

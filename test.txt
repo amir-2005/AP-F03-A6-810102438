@@ -1,4 +1,6 @@
 POST signup ? username "amir" password "123"
 POST login ? username "amir" password "123"
-POST reserve ? restaurant_name "sib" table_id "3" start_time "16" end_time "17" foods "hotdog,hotdog"
 GET districts ? district "Shadman"
+PUT my_district ? district "Behboodi"
+GET restaurants ? food_name "food with space in name"
+POST reserve ? restaurant_name "sib" table_id "3" start_time "16" end_time "17" foods "hotdog,hotdog"

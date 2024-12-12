@@ -1,8 +1,9 @@
 #include "Restaurant.hpp"
 
-Restaurant::Restaurant(string _name, int tabels_num, map<string, int> _menu, int open_time, int close_time)
+Restaurant::Restaurant(string _name, string _district_name, int tabels_num, map<string, int> _menu, int open_time, int close_time)
 {
     name = _name;
+    district_name = _district_name;
     menu = _menu;
     tables.resize(tabels_num);
     working_time = make_pair(open_time, close_time);
@@ -25,10 +26,10 @@ void Restaurant::reserveTable(shared_ptr<Reservation> reserve, int table_id)
         if (reserve->checkTimeInterference(working_time, false))
             throw(PermissionDenied("table is reserved"));
 
-    int bill=0;
+    int bill = 0;
 
     tables[table_id - 1].push_back(reserve);
-    last_reserve_id ++;
+    last_reserve_id++;
     reserve->id = last_reserve_id;
 
     for (auto f : reserve->foods)
@@ -37,3 +38,7 @@ void Restaurant::reserveTable(shared_ptr<Reservation> reserve, int table_id)
     reserve->bill = bill;
 }
 
+bool Restaurant::isInMenu(const food &name)
+{
+    return (menu.find(name) != menu.end());
+}

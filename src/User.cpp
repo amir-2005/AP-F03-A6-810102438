@@ -18,6 +18,9 @@ void User::addReservation(shared_ptr<Reservation> reservation)
 
 bool User::canReserveInThisTime(time_period new_time)
 {
+    if (new_time.first < 1 || new_time.second > 24 || new_time.first >= new_time.second)
+        return false;
+
     for (auto r:reservs)
         if (r->checkTimeInterference(new_time , false))
             return false;

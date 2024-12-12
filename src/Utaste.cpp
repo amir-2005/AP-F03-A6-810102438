@@ -2,8 +2,8 @@
 
 UTaste::UTaste(string path_to_restaurants, string path_to_districts)
 {
-    loadDistrictsData(path_to_districts);
     loadRestaurantData(path_to_restaurants);
+    loadDistrictsData(path_to_districts);
 }
 
 void UTaste::loadRestaurantData(string path_to_restaurants)
@@ -48,7 +48,7 @@ void UTaste::loadRestaurantData(string path_to_restaurants)
                 throw(invalid_argument("Input file format is incorrect"));
         }
 
-        shared_ptr<Restaurant> restaurant = make_shared<Restaurant>(name, number_of_tables, menu, open_time, close_time);
+        shared_ptr<Restaurant> restaurant = make_shared<Restaurant>(name, district, number_of_tables, menu, open_time, close_time);
         rests.push_back(restaurant);
     }
 
@@ -91,9 +91,17 @@ void UTaste::loadDistrictsData(string path_to_districts)
 
     sort(districts.begin(), districts.end(), [](shared_ptr<District> &a, shared_ptr<District> &b)
          { return a->name < b->name; });
+
+    for (auto r : rests)
+        for (auto d : districts)
+            if (r->district_name == d->name)
+            {
+                d->rests.push_back(r);
+                break;
+            }
 }
 
-void UTaste::addUser(string username, string password)
+void UTaste::signUp(string username, string password)
 {
     if (logged_in == true)
         throw(PermissionDenied("can't sign up while logged in"));
@@ -157,7 +165,7 @@ string UTaste::setReservation(string restaurant_name, int table_id, time_period 
         throw(PermissionDenied("no user has logged in"));
 
     if (!current_user->canReserveInThisTime(reserve_time))
-        throw(PermissionDenied("reservation time interference occurs"));
+        throw(PermissionDenied("reservation time is invalid"));
 
     shared_ptr<Reservation> reservation = make_shared<Reservation>(restaurant_name, table_id, reserve_time, foods, current_user);
     for (auto rest : rests)
@@ -207,6 +215,40 @@ string UTaste::getDistrictsInfo(string district_name)
     }
 
     return output;
+}
+
+string UTaste::getRestaurantsInfo(food name)
+{
+    if (logged_in == false)
+        throw(PermissionDenied("no user has logged in"));
+
+    if (current_user->distric == nullptr)
+        throw(NotFound("user district in not set"));
+
+    vector<string> visited;
+    string output = "";
+
+    restaurantBFS(current_user->distric, visited, output, name);
+
+    if (output.empty())
+        output += "\n";
+
+    return output;
+}
+
+void UTaste::restaurantBFS(shared_ptr<District> district, vector<string> &visited, string &output, food &name)
+{
+    if (find(visited.begin(), visited.end(), district->name) == visited.end())
+    {
+        for (auto r : district->rests)
+        {
+            if (name.empty() || (r->isInMenu(name)))
+                output += r->name + "(" + district->name + ")\n";
+        }
+        visited.push_back(district->name);
+        for (auto n: district->neighbors)
+            restaurantBFS(n, visited, output, name);
+    }
 }
 
 // void UTaste::test()

@@ -20,13 +20,12 @@ public:
     string getReservationInfo(string restaurant_name, int id);
     string getName() { return name; };
     string getPassword() { return password; };
-
+    shared_ptr<District> distric;
 
 private:
     list<shared_ptr<Reservation>> reservs;
     string name;
     string password;
-    shared_ptr<District> distric;
 };
 
 #endif
