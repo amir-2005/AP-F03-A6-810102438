@@ -39,7 +39,7 @@ const string SUCCESS_MSG = "OK";
 
 const string ARG_KEY_USERNAME = "username";
 const string ARG_KEY_PASSWORD = "password";
-const string ARG_KEY_DISTRICT = "dsitrict";
+const string ARG_KEY_DISTRICT = "district";
 const string ARG_KEY_FOOD_NAME = "food_name";
 const string ARG_KEY_RESTAURANT_NAME = "restaurant_name";
 const string ARG_KEY_TABLE_ID =  "table_id";
@@ -48,6 +48,6 @@ const string ARG_KEY_END_TIME =  "end_time";
 const string ARG_KEY_FOODS =  "foods";
 const string ARG_KEY_RESERVE_ID =  "reserve_id";
 
-
+const string MSG_NOT_FOUND = " not found";
 
 #endif

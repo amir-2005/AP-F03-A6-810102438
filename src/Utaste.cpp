@@ -124,7 +124,7 @@ void UTaste::login(string username, string password)
                 throw(PermissionDenied("wrong password"));
         }
     }
-    throw(NotFound("user does not exist"));
+    throw(NotFound(username + MSG_NOT_FOUND));
 }
 
 void UTaste::logout()
@@ -148,10 +148,10 @@ void UTaste::setUserDistrict(string district_name)
             return;
         }
 
-    throw(NotFound("district not found"));
+    throw(NotFound(district_name + MSG_NOT_FOUND));
 }
 
-void UTaste::setReservation(string restaurant_name, int table_id, time_period reserve_time, map<food, int> foods)
+string UTaste::setReservation(string restaurant_name, int table_id, time_period reserve_time, map<food, int> foods)
 {
     if (logged_in == false)
         throw(PermissionDenied("no user has logged in"));
@@ -159,15 +159,54 @@ void UTaste::setReservation(string restaurant_name, int table_id, time_period re
     if (!current_user->canReserveInThisTime(reserve_time))
         throw(PermissionDenied("reservation time interference occurs"));
 
-    shared_ptr<Reservation> reservation = make_shared<Reservation>(restaurant_name, reserve_time, foods, current_user);
+    shared_ptr<Reservation> reservation = make_shared<Reservation>(restaurant_name, table_id, reserve_time, foods, current_user);
     for (auto rest : rests)
         if (rest->name == restaurant_name)
         {
-            reservation->id = rest->reserveTable(reservation, table_id);
+            rest->reserveTable(reservation, table_id);
             current_user->addReservation(reservation);
-            return;
+            return reservation->getInfo();
         }
-    throw(NotFound("restaurant not found"));
+    throw(NotFound(restaurant_name + MSG_NOT_FOUND));
+}
+
+string UTaste::getDistrictsInfo(string district_name)
+{
+    if (logged_in == false)
+        throw(PermissionDenied("no user has logged in"));
+
+    string output = "";
+
+    if (districts.empty())
+        throw(Empty("there is no district"));
+
+    if (!district_name.empty())
+    {
+        for (auto d : districts)
+            if (d->name == district_name)
+            {
+                output += d->name + ": ";
+                for (auto n : d->neighbors)
+                    output += n->name + ", ";
+
+                output.erase(output.size() - 2);
+                output += "\n";
+                return output;
+            }
+        throw(NotFound(district_name + MSG_NOT_FOUND));
+    }
+
+    for (auto d : districts)
+    {
+        output += d->name + ": ";
+        for (auto n : d->neighbors)
+            output += n->name + ", ";
+
+        output.erase(output.size() - 2);
+        output += "\n";
+    }
+
+    return output;
 }
 
 // void UTaste::test()

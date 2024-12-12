@@ -62,8 +62,12 @@ Terminal::Terminal(UTaste _utaste) : utaste(_utaste)
                 while (getline(ss, token, DELIM))
                     reserve_foods[token]++;
 
-                utaste.setReservation(args[ARG_KEY_RESTAURANT_NAME], stoi(args[ARG_KEY_TABLE_ID]), reserve_time, reserve_foods);
-                cout << SUCCESS_MSG << endl;
+                cout << utaste.setReservation(args[ARG_KEY_RESTAURANT_NAME], stoi(args[ARG_KEY_TABLE_ID]), reserve_time, reserve_foods);
+            }
+
+            else if (command_type == GET_COMMAND_TYPE && command == DISTRICTS_COMMAND)
+            {
+                cout << utaste.getDistrictsInfo(args[ARG_KEY_DISTRICT]);
             }
         }
         catch (const exception &e)

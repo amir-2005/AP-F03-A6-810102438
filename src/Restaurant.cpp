@@ -8,7 +8,7 @@ Restaurant::Restaurant(string _name, int tabels_num, map<string, int> _menu, int
     working_time = make_pair(open_time, close_time);
 }
 
-int Restaurant::reserveTable(shared_ptr<Reservation> reserve, int table_id)
+void Restaurant::reserveTable(shared_ptr<Reservation> reserve, int table_id)
 {
     // Assuming that table_id start at 0
     if (table_id > tables.size())
@@ -25,8 +25,15 @@ int Restaurant::reserveTable(shared_ptr<Reservation> reserve, int table_id)
         if (reserve->checkTimeInterference(working_time, false))
             throw(PermissionDenied("table is reserved"));
 
+    int bill=0;
+
     tables[table_id - 1].push_back(reserve);
     last_reserve_id ++;
-    return last_reserve_id;
+    reserve->id = last_reserve_id;
+
+    for (auto f : reserve->foods)
+        bill += menu[f.first] * f.second;
+
+    reserve->bill = bill;
 }
 
