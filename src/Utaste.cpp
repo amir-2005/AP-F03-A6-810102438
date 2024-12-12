@@ -111,6 +111,8 @@ void UTaste::signUp(string username, string password)
             throw(BadRequest("The user is already signed up"));
 
     users.push_back(make_shared<User>(username, password));
+    current_user = users.back();
+    logged_in = true;
 }
 
 void UTaste::login(string username, string password)
