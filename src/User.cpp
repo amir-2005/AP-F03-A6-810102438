@@ -23,10 +23,7 @@ bool User::canReserveInThisTime(time_period new_time)
 
     for (auto r : reservs)
         if (r->checkTimeInterference(new_time, false))
-        {
-            cout << "--------------here----------------";
             return false;
-        }
     return true;
 }
 
@@ -45,7 +42,7 @@ void User::removeReservation(string restaurnat_name, int reserve_id)
 string User::getReservationsInfo(string restaurant_name, int id)
 {
     if (reservs.empty())
-        throw(Empty("there is no reservation"));
+        throw(Empty(MSG_EMPTY_NO_RESERVATION));
 
     reservs.sort([](const shared_ptr<Reservation> &a, const shared_ptr<Reservation> &b)
                  { return *a < *b; });

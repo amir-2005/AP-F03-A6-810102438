@@ -13,22 +13,19 @@ void Restaurant::reserveTable(shared_ptr<Reservation> reserve, int table_id)
 {
     // Assuming that table_id start at 0
     if (table_id > tables.size())
-        throw(NotFound("table id out of range"));
+        throw(NotFound(MSG_NOT_FOUND_TABLE_ID));
 
     for (auto f : reserve->foods)
         if (menu.find(f.first) == menu.end())
-            throw(NotFound("food is not availble"));
+            throw(NotFound(MSG_NOT_FOUND_FOOD));
 
     if (reserve->checkTimeInterference(working_time, true))
     {
-        throw(PermissionDenied("reserve time out of working hours"));
+        throw(PermissionDenied(MSG_PERMISSION_DENIED_RESERVE_TIME));
     }
     for (auto r : tables[table_id - 1])
         if (reserve->checkTimeInterference(r, false))
-        {
-            cout << "----------------here-------------\n";
-            throw(PermissionDenied("table is reserved"));
-        }
+            throw(PermissionDenied(MSG_PERMISSION_DENIED_TABLE));
     int bill = 0;
 
     tables[table_id - 1].push_back(reserve);

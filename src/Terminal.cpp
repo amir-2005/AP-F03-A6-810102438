@@ -64,15 +64,15 @@ void Terminal::extractCommandArgs(string input)
     stringstream ss(input);
     ss >> command_type;
     if (find(COMMAND_TYPES.begin(), COMMAND_TYPES.end(), command_type) == COMMAND_TYPES.end())
-        throw(BadRequest("invalid main command"));
+        throw(BadRequest(MSG_BAD_REQUEST_COMMAND_TYPE));
 
     ss >> command;
     if (find(COMMANDS.begin(), COMMANDS.end(), command) == COMMANDS.end())
-        throw(BadRequest("invalid main command"));
+        throw(BadRequest(MSG_BAD_REQUEST_COMMAND));
 
     ss >> temp;
     if (ARGS_START_DELIM != temp)
-        throw(BadRequest("invalid input format"));
+        throw(BadRequest(MSG_BAD_REQUEST_FORMAT));
 
     while (ss >> token)
     {
@@ -85,7 +85,7 @@ void Terminal::extractCommandArgs(string input)
         {
             argument += token + " ";
             if (!(ss >> token))
-                throw(BadRequest("invalid input format"));
+                throw(BadRequest(MSG_BAD_REQUEST_FORMAT));
         }
 
         argument += token;
@@ -97,7 +97,7 @@ void Terminal::extractCommandArgs(string input)
 void Terminal::handleSignUp()
 {
     if (args.find(ARG_KEY_USERNAME) == args.end() || args.find(ARG_KEY_PASSWORD) == args.end())
-        throw(BadRequest("invalid arguments for sign up"));
+        throw(BadRequest(MSG_BAD_REQUEST_ARGUMENTS + SIGNUP_COMMAND));
 
     utaste.signUp(args[ARG_KEY_USERNAME], args[ARG_KEY_PASSWORD]);
     cout << SUCCESS_MSG << endl;
@@ -106,7 +106,7 @@ void Terminal::handleSignUp()
 void Terminal::handleLogin()
 {
     if (args.find(ARG_KEY_USERNAME) == args.end() || args.find(ARG_KEY_PASSWORD) == args.end())
-        throw(BadRequest("invalid arguments for login"));
+        throw(BadRequest(MSG_BAD_REQUEST_ARGUMENTS + LOGIN_COMMAND));
 
     utaste.login(args[ARG_KEY_USERNAME], args[ARG_KEY_PASSWORD]);
     cout << SUCCESS_MSG << endl;
@@ -115,7 +115,7 @@ void Terminal::handleLogin()
 void Terminal::handleLogout()
 {
     if (!args.empty())
-        throw(BadRequest("invalid arguments for logout"));
+        throw(BadRequest(MSG_BAD_REQUEST_ARGUMENTS + LOGOUT_COMMAND));
 
     utaste.logout();
     cout << SUCCESS_MSG << endl;
@@ -124,7 +124,7 @@ void Terminal::handleLogout()
 void Terminal::handleMyDistrict()
 {
     if (args.find(ARG_KEY_DISTRICT) == args.end())
-        throw(BadRequest("invalid arguments for my_district"));
+        throw(BadRequest(MSG_BAD_REQUEST_ARGUMENTS + MY_DISTRICT_COMMAND));
 
     utaste.setUserDistrict(args[ARG_KEY_DISTRICT]);
     cout << SUCCESS_MSG << endl;
@@ -136,7 +136,7 @@ void Terminal::handleReserve()
         args.find(ARG_KEY_TABLE_ID) == args.end() ||
         args.find(ARG_KEY_START_TIME) == args.end() ||
         args.find(ARG_KEY_END_TIME) == args.end())
-        throw(BadRequest("invalid arguments for reserve"));
+        throw(BadRequest(MSG_BAD_REQUEST_ARGUMENTS + RESERVE_COMMAND));
 
     time_period reserve_time = make_pair(stoi(args[ARG_KEY_START_TIME]), stoi(args[ARG_KEY_END_TIME]));
     stringstream ss(args[ARG_KEY_FOODS]);
@@ -167,7 +167,7 @@ void Terminal::handleRestaurantDetail()
 void Terminal::handleShowReserves()
 {
     if (args.find(ARG_KEY_RESERVE_ID) != args.end() && args.find(ARG_KEY_RESTAURANT_NAME) == args.end())
-        throw(BadRequest("restaurant should be specified"));
+        throw(BadRequest(MSG_BAD_REQUEST_RESTAURNT));
 
     int reserve_id = 0;
     if (!args[ARG_KEY_RESERVE_ID].empty())
@@ -179,7 +179,7 @@ void Terminal::handleShowReserves()
 void Terminal::handleDeleteReserve()
 {
     if (args.find(ARG_KEY_RESERVE_ID) == args.end() || args.find(ARG_KEY_RESTAURANT_NAME) == args.end())
-        throw(BadRequest("reserve id and restaurant name should be specified"));
+        throw(BadRequest(MSG_BAD_REQUEST_RESERVE_ID));
 
     utaste.deleteReservation(args[ARG_KEY_RESTAURANT_NAME], stoi(args[ARG_KEY_RESERVE_ID]));
     cout << SUCCESS_MSG << endl;

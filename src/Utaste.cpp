@@ -11,7 +11,7 @@ void UTaste::loadRestaurantData(string path_to_restaurants)
     ifstream rests_file(path_to_restaurants);
     string line;
     if (!rests_file)
-        throw(invalid_argument("Cant open " + path_to_restaurants));
+        throw(invalid_argument(UNEXPECTED_ERROR_FILE_OPEN + path_to_restaurants));
 
     getline(rests_file, line);
 
@@ -45,7 +45,7 @@ void UTaste::loadRestaurantData(string path_to_restaurants)
                 menu[food_name] = price;
             }
             else
-                throw(invalid_argument("Input file format is incorrect"));
+                throw(invalid_argument(UNEXPECTED_ERROR_FILE_FORMAT));
         }
 
         shared_ptr<Restaurant> restaurant = make_shared<Restaurant>(name, district, number_of_tables, menu, open_time, close_time);
@@ -60,7 +60,7 @@ void UTaste::loadDistrictsData(string path_to_districts)
 
     ifstream districts_file(path_to_districts);
     if (!districts_file)
-        throw(invalid_argument("Cant open " + path_to_districts));
+        throw(invalid_argument(UNEXPECTED_ERROR_FILE_OPEN + path_to_districts));
 
     vector<vector<string>> neighbors;
     string line, district_name, neighbor_name;
@@ -104,11 +104,11 @@ void UTaste::loadDistrictsData(string path_to_districts)
 void UTaste::signUp(string username, string password)
 {
     if (logged_in == true)
-        throw(PermissionDenied("can't sign up while logged in"));
+        throw(PermissionDenied(MSG_PERMISSION_DENIED_SIGN_UP));
 
     for (auto u : users)
         if (u->getName() == username)
-            throw(BadRequest("The user is already signed up"));
+            throw(BadRequest(MSG_PERMISSION_DENIED_DUPLICATED));
 
     users.push_back(make_shared<User>(username, password));
     current_user = users.back();
@@ -118,7 +118,7 @@ void UTaste::signUp(string username, string password)
 void UTaste::login(string username, string password)
 {
     if (logged_in == true)
-        throw(PermissionDenied("can't login twice"));
+        throw(PermissionDenied(MSG_PERMISSION_DENIED_LOGIN));
 
     for (auto u : users)
     {
@@ -131,7 +131,7 @@ void UTaste::login(string username, string password)
                 return;
             }
             else
-                throw(PermissionDenied("wrong password"));
+                throw(PermissionDenied(MSG_PERMISSION_DENIED_PASSWORD));
         }
     }
     throw(NotFound(username + MSG_NOT_FOUND));
@@ -140,7 +140,7 @@ void UTaste::login(string username, string password)
 void UTaste::logout()
 {
     if (logged_in == false)
-        throw(PermissionDenied("can't logout before login"));
+        throw(PermissionDenied(MSG_PERMISSION_DENIED_NO_USER));
 
     logged_in = false;
     current_user = nullptr;
@@ -149,7 +149,7 @@ void UTaste::logout()
 void UTaste::setUserDistrict(string district_name)
 {
     if (logged_in == false)
-        throw(PermissionDenied("no user has logged in"));
+        throw(PermissionDenied(MSG_PERMISSION_DENIED_NO_USER));
 
     for (auto d : districts)
         if (d->name == district_name)
@@ -164,10 +164,10 @@ void UTaste::setUserDistrict(string district_name)
 string UTaste::setReservation(string restaurant_name, int table_id, time_period reserve_time, map<food, int> foods)
 {
     if (logged_in == false)
-        throw(PermissionDenied("no user has logged in"));
+        throw(PermissionDenied(MSG_PERMISSION_DENIED_NO_USER));
 
     if (!current_user->canReserveInThisTime(reserve_time))
-        throw(PermissionDenied("reservation time is invalid"));
+        throw(PermissionDenied(MSG_PERMISSION_DENIED_RESERVE_TIME));
 
     shared_ptr<Reservation> reservation = make_shared<Reservation>(restaurant_name, table_id, reserve_time, foods);
     for (auto rest : rests)
@@ -183,12 +183,12 @@ string UTaste::setReservation(string restaurant_name, int table_id, time_period 
 string UTaste::getDistrictsInfo(string district_name)
 {
     if (logged_in == false)
-        throw(PermissionDenied("no user has logged in"));
+        throw(PermissionDenied(MSG_PERMISSION_DENIED_NO_USER));
 
     string output = "";
 
     if (districts.empty())
-        throw(Empty("there is no district"));
+        throw(Empty(MSG_EMPTY_NO_DISTRICT));
 
     if (!district_name.empty())
     {
@@ -222,10 +222,10 @@ string UTaste::getDistrictsInfo(string district_name)
 string UTaste::getRestaurantsList(food food)
 {
     if (logged_in == false)
-        throw(PermissionDenied("no user has logged in"));
+        throw(PermissionDenied(MSG_PERMISSION_DENIED_NO_USER));
 
     if (current_user->distric == nullptr)
-        throw(NotFound("user district in not set"));
+        throw(NotFound(MSG_NOT_FOUND_DISTRICT_SET));
 
     vector<string> visited;
     string output = "";
@@ -233,7 +233,7 @@ string UTaste::getRestaurantsList(food food)
     restaurantBFS(current_user->distric, visited, output, food);
 
     if (output.empty())
-        throw(Empty("no restaurant with this food :" + food));
+        throw(Empty(MSG_EMPTY_NO_RESTAURANT+ food));
 
     return output;
 }
@@ -241,7 +241,7 @@ string UTaste::getRestaurantsList(food food)
 string UTaste::getRestaurantInfo(string restaurant_name)
 {
     if (logged_in == false)
-        throw(PermissionDenied("no user has logged in"));
+        throw(PermissionDenied(MSG_PERMISSION_DENIED_NO_USER));
 
     shared_ptr<Restaurant> restaurant;
 
@@ -277,7 +277,7 @@ string UTaste::showReservations(string restaurant_name, int reserve_id)
 {
     for (auto user:users)
         if (user != current_user && user->hasThisReservation(restaurant_name, reserve_id))
-            throw(PermissionDenied("the reservation is belong to someone else"));
+            throw(PermissionDenied(MSG_PERMISSION_DENIED_RESERVATION));
 
     return current_user->getReservationsInfo(restaurant_name, reserve_id);
 }
@@ -286,7 +286,7 @@ void UTaste::deleteReservation(string restaurant_name, int reserve_id)
 {
     for (auto user:users)
         if (user != current_user && user->hasThisReservation(restaurant_name, reserve_id))
-            throw(PermissionDenied("the reservation is belong to someone else"));
+            throw(PermissionDenied(MSG_PERMISSION_DENIED_RESERVATION));
 
     current_user->removeReservation(restaurant_name, reserve_id);
     
