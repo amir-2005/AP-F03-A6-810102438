@@ -3,7 +3,7 @@
 int main(int argc, char*argv[])
 {
     if (argc!=3)
-        throw("Invalid command line arguments");
+        return 1;
 
     UTaste program(argv[1],argv[2]);
     Terminal terminal(program);
