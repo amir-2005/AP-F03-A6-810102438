@@ -289,13 +289,4 @@ void UTaste::deleteReservation(string restaurant_name, int reserve_id)
             throw(PermissionDenied(MSG_PERMISSION_DENIED_RESERVATION));
 
     current_user->removeReservation(restaurant_name, reserve_id);
-    
 }
-
-// void UTaste::test()
-// {
-//     if (current_user == nullptr)
-//         return;
-//     for (auto r : current_user->reservs)
-//         cout << r->restaurant_name << ":" << r->id << endl;
-// }

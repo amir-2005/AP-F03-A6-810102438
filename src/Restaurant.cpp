@@ -11,8 +11,7 @@ Restaurant::Restaurant(string _name, string _district_name, int tabels_num, map<
 
 void Restaurant::reserveTable(shared_ptr<Reservation> reserve, int table_id)
 {
-    // Assuming that table_id start at 0
-    if (table_id > tables.size())
+    if (table_id > tables.size() || table_id <= 0)
         throw(NotFound(MSG_NOT_FOUND_TABLE_ID));
 
     for (auto f : reserve->foods)
@@ -60,7 +59,7 @@ string Restaurant::getInfo()
         output += to_string(i + 1) + ": ";
         for (auto r : tables[i])
             output += r->getTime() + ", ";
-        output.erase(output.size() - 2);
+        output.erase(output.size() - 1);
         output += "\n";
     }
 

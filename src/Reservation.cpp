@@ -5,6 +5,8 @@ Reservation::Reservation(string _restaurant_name, int _table_id, time_period _ti
     restaurant_name = _restaurant_name;
     table_id = _table_id;
     time = _time;
+    if (time.first > time.second)
+        time.second += FULL_DAY_TIME;
     foods = _foods;
 }
 
@@ -36,6 +38,9 @@ string Reservation::getTime()
 
 bool Reservation::checkTimeInterference(time_period time_limit, bool shoud_be_in_period)
 {
+    if (time_limit.first > time_limit.second)
+        time_limit.second += FULL_DAY_TIME;
+
     if (shoud_be_in_period)
         return (time.second > time_limit.second) || (time.first < time_limit.first);
     else
@@ -50,7 +55,7 @@ bool Reservation::checkTimeInterference(shared_ptr<Reservation> other_reserve, b
         return (time.first < other_reserve->time.second) && (time.second > other_reserve->time.first);
 }
 
-bool Reservation::operator<(const Reservation& other)
+bool Reservation::operator<(const Reservation &other)
 {
     return time.first < other.time.first;
 }

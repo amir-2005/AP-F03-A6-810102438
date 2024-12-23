@@ -77,4 +77,6 @@ const string MSG_EMPTY_NO_DISTRICT = "there is no district";
 const string MSG_EMPTY_NO_RESTAURANT = "no restaurant with this food: ";
 const string MSG_EMPTY_NO_RESERVATION = "no reservation found";
 
+const int FULL_DAY_TIME = 24;
+
 #endif
