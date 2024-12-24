@@ -5,8 +5,6 @@ Reservation::Reservation(string _restaurant_name, int _table_id, time_period _ti
     restaurant_name = _restaurant_name;
     table_id = _table_id;
     time = _time;
-    if (time.first > time.second)
-        time.second += FULL_DAY_TIME;
     foods = _foods;
 }
 
@@ -24,10 +22,10 @@ string Reservation::getTotalInfo()
 string Reservation::getInfo()
 {
     string output = "";
-    output += "Reserve ID: " + to_string(id) + "\n";
-    output += "Table " + to_string(table_id) + " for " + to_string(time.first) + " to " + to_string(time.second);
+    output += RESERVATION_INFO_ID + ": " + to_string(id) + "\n";
+    output += RESERVATION_INFO_TABLE + " " + to_string(table_id) + " for " + to_string(time.first) + " to " + to_string(time.second);
     output += " in " + restaurant_name + "\n";
-    output += "Price: " + to_string(bill) + "\n";
+    output += RESERVATION_INFO_PRICE + ": " + to_string(bill) + "\n";
     return output;
 }
 
@@ -38,17 +36,30 @@ string Reservation::getTime()
 
 bool Reservation::checkTimeInterference(time_period time_limit, bool shoud_be_in_period)
 {
+    time_period time_copy = time;
+
     if (time_limit.first > time_limit.second)
         time_limit.second += FULL_DAY_TIME;
 
+    if (time_copy.first > time_copy.second)
+        time_copy.second += FULL_DAY_TIME;
+
     if (shoud_be_in_period)
-        return (time.second > time_limit.second) || (time.first < time_limit.first);
+        return (time_copy.second > time_limit.second) || (time_copy.first < time_limit.first);
     else
-        return (time.first < time_limit.second) && (time.second > time_limit.first);
+        return (time_copy.first < time_limit.second) && (time_copy.second > time_limit.first);
 }
 
 bool Reservation::checkTimeInterference(shared_ptr<Reservation> other_reserve, bool shoud_be_in_period)
 {
+    time_period time_copy = time;
+
+    if (other_reserve->time.first > other_reserve->time.second)
+        other_reserve->time.second += FULL_DAY_TIME;
+
+    if (time_copy.first > time_copy.second)
+        time_copy.second += FULL_DAY_TIME;
+    
     if (shoud_be_in_period)
         return (time.second > other_reserve->time.second) || (time.first < other_reserve->time.first);
     else

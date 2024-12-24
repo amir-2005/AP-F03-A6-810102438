@@ -77,6 +77,15 @@ const string MSG_EMPTY_NO_DISTRICT = "there is no district";
 const string MSG_EMPTY_NO_RESTAURANT = "no restaurant with this food: ";
 const string MSG_EMPTY_NO_RESERVATION = "no reservation found";
 
+const string RESERVATION_INFO_ID = "Reserve ID";
+const string RESERVATION_INFO_TABLE = "Table";
+const string RESERVATION_INFO_PRICE = "Price";
+
+const string RESTAURANT_INFO_NAME = "Name";
+const string RESTAURANT_INFO_DISTRICT = "District";
+const string RESTAURANT_INFO_TIME = "Time";
+const string RESTAURANT_INFO_MENU = "Menu";
+
 const int FULL_DAY_TIME = 24;
 
 #endif

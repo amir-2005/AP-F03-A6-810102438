@@ -45,10 +45,10 @@ bool Restaurant::isInMenu(const food &name)
 string Restaurant::getInfo()
 {
     string output = "";
-    output += "Name: " + name + "\n";
-    output += "District: " + district_name + "\n";
-    output += "Time: " + to_string(working_time.first) + "-" + to_string(working_time.second) + "\n";
-    output += "Menu: ";
+    output += RESTAURANT_INFO_NAME + ": " + name + "\n";
+    output += RESTAURANT_INFO_DISTRICT + ": " + district_name + "\n";
+    output += RESTAURANT_INFO_TIME + ": " + to_string(working_time.first) + "-" + to_string(working_time.second) + "\n";
+    output += RESTAURANT_INFO_MENU + ": ";
     for (auto item : menu)
         output += item.first + "(" + to_string(item.second) + "), ";
     output.erase(output.size() - 2);
@@ -56,10 +56,11 @@ string Restaurant::getInfo()
 
     for (int i = 0; i < tables.size(); i++)
     {
-        output += to_string(i + 1) + ": ";
+        output += to_string(i + 1) + ":";
         for (auto r : tables[i])
-            output += r->getTime() + ", ";
-        output.erase(output.size() - 1);
+            output += " " + r->getTime() + ",";
+        if (output.back() == ',')
+            output.erase(output.size() - 1);
         output += "\n";
     }
 
