@@ -78,7 +78,6 @@ void UTaste::loadDistrictsData(string path_to_districts)
 
         while (getline(ss, neighbor_name, INNER_DELIM))
             neighbors[i].push_back(neighbor_name);
-
         i++;
     }
 
@@ -136,8 +135,8 @@ void UTaste::loadDiscountsData(string path_to_discounts)
                 getline(food_discount_ss, type, INNER_DELIM);
                 getline(food_discount_ss, food_name, PRICE_DELIM);
                 getline(food_discount_ss, value);
-
-                restaurant->discounts.push_back(make_shared<FoodDiscount>(type, stoi(value), food_name));
+                int food_price = restaurant->getPriceInMenu(food_name);
+                restaurant->discounts.push_back(make_shared<FoodDiscount>(type, stoi(value), food_name, food_price));
             }
         }
 
@@ -329,7 +328,7 @@ void UTaste::restaurantBFS(shared_ptr<District> district, vector<string> &visite
     {
         for (auto r : district->rests)
         {
-            if (food.empty() || (r->isInMenu(food)))
+            if (food.empty() || (r->getPriceInMenu(food) == 0))
                 output += r->name + "(" + district->name + ")\n";
         }
         visited.push_back(district->name);

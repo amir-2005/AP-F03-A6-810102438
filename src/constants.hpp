@@ -96,10 +96,15 @@ const string RESTAURANT_INFO_NAME = "Name";
 const string RESTAURANT_INFO_DISTRICT = "District";
 const string RESTAURANT_INFO_TIME = "Time";
 const string RESTAURANT_INFO_MENU = "Menu";
+const string RESTAURANT_INFO_ORDER_DISCOUNT = "Order Amount Discount";
+const string RESTAURANT_INFO_ITEM_DISCOUNT = "Item Specific Discount";
+const string RESTAURANT_INFO_FIRST_DISCOUNT = "First Order Discount";
 
 const string TYPE_AMOUNT = "amount";
 const string TYPE_PERCENTAGE = "percent";
 const string NO_DISCOUNT = "none";
+
 const int FULL_DAY_TIME = 24;
+const float REFUND_PERCENT = 0.6;
 
 #endif

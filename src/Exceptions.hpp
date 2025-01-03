@@ -9,12 +9,12 @@ class BadRequest : public exception
 public:
     BadRequest(const string &msg)
     {
-        message = BAD_REQUEST_MSG;
+        message = msg;
     }
 
     const char *what() const throw()
     {
-        return default_message.c_str();
+        return message.c_str();
     }
 
 private:
@@ -32,7 +32,7 @@ public:
 
     const char *what() const throw()
     {
-        return default_message.c_str();
+        return message.c_str();
     }
 
 private:
@@ -50,7 +50,7 @@ public:
 
     const char *what() const throw()
     {
-        return default_message.c_str();
+        return message.c_str();
     }
 
 private:
@@ -68,7 +68,7 @@ public:
 
     const char *what() const throw()
     {
-        return default_message.c_str();
+        return message.c_str();
     }
 
 private:

@@ -15,6 +15,7 @@ string Reservation::getTotalInfo()
     output += to_string(time.first) + "-" + to_string(time.second);
     for (auto f : foods)
         output += " " + f.first + "(" + to_string(f.second) + ")";
+    output += " " + to_string(bill) + " " + to_string(bill - getTotalDiscount());
     output += "\n";
     return output;
 }

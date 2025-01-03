@@ -22,7 +22,7 @@ public:
     string district_name;
     vector<vector<shared_ptr<Reservation>>> tables;
 
-    bool isInMenu(const food &name);
+    int getPriceInMenu(const food &name);
     list<shared_ptr<Discount>> discounts;
 
 private:

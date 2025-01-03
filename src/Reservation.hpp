@@ -28,12 +28,11 @@ public:
     string restaurant_name;
     map<food, int> foods;
     int id;
-    int bill;
+    int bill = 0;
 
 private:
     time_period time;
     int table_id;
-
 };
 
 #endif

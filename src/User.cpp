@@ -32,6 +32,8 @@ void User::removeReservation(string restaurnat_name, int reserve_id)
     for (auto r : reservs)
         if ((r->restaurant_name == restaurnat_name) && (r->id == reserve_id))
         {
+            int refund_amount = (r->bill - r->getTotalDiscount()) * REFUND_PERCENT;
+            budget += refund_amount;
             reservs.remove(r);
             return;
         }
