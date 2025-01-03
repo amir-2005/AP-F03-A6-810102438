@@ -9,7 +9,7 @@ Restaurant::Restaurant(string _name, string _district_name, int tabels_num, map<
     working_time = make_pair(open_time, close_time);
 }
 
-void Restaurant::reserveTable(shared_ptr<Reservation> reserve, int table_id)
+int Restaurant::reserveTable(shared_ptr<Reservation> reserve, int table_id)
 {
     if (table_id > tables.size() || table_id <= 0)
         throw(NotFound(MSG_NOT_FOUND_TABLE_ID));
@@ -19,14 +19,13 @@ void Restaurant::reserveTable(shared_ptr<Reservation> reserve, int table_id)
             throw(NotFound(MSG_NOT_FOUND_FOOD));
 
     if (reserve->checkTimeInterference(working_time, true))
-    {
         throw(PermissionDenied(MSG_PERMISSION_DENIED_RESERVE_TIME));
-    }
+
     for (auto r : tables[table_id - 1])
         if (reserve->checkTimeInterference(r, false))
             throw(PermissionDenied(MSG_PERMISSION_DENIED_TABLE));
+            
     int bill = 0;
-
     tables[table_id - 1].push_back(reserve);
     last_reserve_id++;
     reserve->id = last_reserve_id;
@@ -35,6 +34,11 @@ void Restaurant::reserveTable(shared_ptr<Reservation> reserve, int table_id)
         bill += menu[f.first] * f.second;
 
     reserve->bill = bill;
+
+    for(auto discount : discounts)
+        discount->apply(reserve);
+
+    return bill - reserve->getTotalDiscount();
 }
 
 bool Restaurant::isInMenu(const food &name)

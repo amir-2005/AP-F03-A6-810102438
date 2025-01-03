@@ -67,6 +67,7 @@ const string MSG_BAD_REQUEST_ARGUMENTS = "invalid arguments for ";
 const string MSG_BAD_REQUEST_RESTAURNT = "restaurant should be specified";
 const string MSG_BAD_REQUEST_RESERVE_ID = "reserve id and restaurant name should be specified";
 const string MSG_BAD_REQUEST_NEGATIVE = "can't be negative";
+const string MSG_BAD_REQUEST_LOW_BUDGET = "not enough catch";
 
 const string MSG_PERMISSION_DENIED_SIGN_UP = "can't sign up while logged in";
 const string MSG_PERMISSION_DENIED_DUPLICATED = "The user is already signed up";
@@ -84,7 +85,12 @@ const string MSG_EMPTY_NO_RESERVATION = "no reservation found";
 
 const string RESERVATION_INFO_ID = "Reserve ID";
 const string RESERVATION_INFO_TABLE = "Table";
-const string RESERVATION_INFO_PRICE = "Price";
+const string RESERVATION_INFO_ORIGINAL_PRICE = "Original Price";
+const string RESERVATION_INFO_ORDER_DISCOUNT = "Order Amount Discount"; 
+const string RESERVATION_INFO_FOOD_DISCOUNT = "Total Item Specific Discount";
+const string RESERVATION_INFO_FIRST_DISCOUNT = "First Order Discount";
+const string RESERVATION_INFO_TOTAL_DISCOUNT = "Total Discount";
+const string RESERVATION_INFO_TOTAL_PRICE = "Total Price";
 
 const string RESTAURANT_INFO_NAME = "Name";
 const string RESTAURANT_INFO_DISTRICT = "District";

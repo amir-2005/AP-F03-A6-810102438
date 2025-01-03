@@ -19,7 +19,12 @@ public:
     bool checkTimeInterference(time_period time_limit, bool shoud_be_in_period);
     bool checkTimeInterference(shared_ptr<Reservation> other_reserve, bool shoud_be_in_period);
     bool operator<(const Reservation& other);
-    void setDiscount(int _discount) {discount += _discount;}
+    int getTotalDiscount();
+
+    int first_discount = 0;
+    int food_discount = 0;
+    int order_discount = 0;
+
     string restaurant_name;
     map<food, int> foods;
     int id;
@@ -28,7 +33,7 @@ public:
 private:
     time_period time;
     int table_id;
-    int discount = 0;
+
 };
 
 #endif

@@ -25,7 +25,12 @@ string Reservation::getInfo()
     output += RESERVATION_INFO_ID + ": " + to_string(id) + "\n";
     output += RESERVATION_INFO_TABLE + " " + to_string(table_id) + " for " + to_string(time.first) + " to " + to_string(time.second);
     output += " in " + restaurant_name + "\n";
-    output += RESERVATION_INFO_PRICE + ": " + to_string(bill) + "\n";
+    output += RESERVATION_INFO_ORIGINAL_PRICE + ": " + to_string(bill) + "\n";
+    output += RESERVATION_INFO_ORDER_DISCOUNT + ": " + to_string(order_discount) + "\n";
+    output += RESERVATION_INFO_FOOD_DISCOUNT + ": " + to_string(food_discount) + "\n";
+    output += RESERVATION_INFO_FIRST_DISCOUNT + ": " + to_string(first_discount) + "\n";
+    output += RESERVATION_INFO_TOTAL_DISCOUNT + ": " + to_string(getTotalDiscount()) + "\n";
+    output += RESERVATION_INFO_TOTAL_PRICE + ": " + to_string(bill - getTotalDiscount()) + "\n";
     return output;
 }
 
@@ -69,4 +74,9 @@ bool Reservation::checkTimeInterference(shared_ptr<Reservation> other_reserve, b
 bool Reservation::operator<(const Reservation &other)
 {
     return time.first < other.time.first;
+}
+
+int Reservation::getTotalDiscount()
+{
+    return first_discount + order_discount + food_discount;
 }

@@ -3,25 +3,25 @@
 void FirstOrderDiscount::apply(shared_ptr<Reservation> reserve)
 {
     if (type == TYPE_AMOUNT)
-        reserve->setDiscount(value);
+        reserve->first_discount += value;
     else
     {
         int discount_amount = reserve->bill * (float)(value / 100);
-        reserve->setDiscount(discount_amount);
+        reserve->first_discount += discount_amount;
     }
 }
 
 void TotalPriceDiscount::apply(shared_ptr<Reservation> reserve)
 {
-    if (reserve->bill < min_value)
+    if ((reserve->bill - reserve->first_discount - reserve->food_discount)< min_value)
         return;
 
     if (type == TYPE_AMOUNT)
-        reserve->setDiscount(value);
+        reserve->order_discount += value;
     else
     {
         int discount_amount = reserve->bill * (float)(value / 100);
-        reserve->setDiscount(discount_amount);
+        reserve->order_discount += discount_amount;
     }
 }
 
@@ -31,11 +31,11 @@ void FoodDiscount::apply(shared_ptr<Reservation> reserve)
         if (item.first == name)
         {
             if (type == TYPE_AMOUNT)
-                reserve->setDiscount(value);
+                reserve->food_discount += value;
             else
             {
                 int discount_amount = item.second * (float)(value / 100);
-                reserve->setDiscount(discount_amount);
+                reserve->food_discount += discount_amount;
             }
         }
 }

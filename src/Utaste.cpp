@@ -236,7 +236,9 @@ string UTaste::setReservation(string restaurant_name, int table_id, time_period 
     for (auto rest : rests)
         if (rest->name == restaurant_name)
         {
-            rest->reserveTable(reservation, table_id);
+            int final_bill = rest->reserveTable(reservation, table_id);
+            if (final_bill > current_user->budget)
+                throw(BadRequest(MSG_BAD_REQUEST_LOW_BUDGET));
             current_user->addReservation(reservation);
             return reservation->getInfo();
         }

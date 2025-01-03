@@ -57,6 +57,10 @@ Terminal::Terminal(UTaste _utaste) : utaste(_utaste)
             {
                 handleIncreaseBudget();
             }
+            else 
+            {
+                throw(NotFound(MSG_NOT_FOUND + command));
+            }
         }
         catch (const exception &e)
         {
