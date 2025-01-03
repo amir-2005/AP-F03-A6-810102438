@@ -86,6 +86,9 @@ const string RESTAURANT_INFO_DISTRICT = "District";
 const string RESTAURANT_INFO_TIME = "Time";
 const string RESTAURANT_INFO_MENU = "Menu";
 
+const string TYPE_AMOUNT = "amount";
+const string TYPE_PERCENTAGE = "percentage";
+
 const int FULL_DAY_TIME = 24;
 
 #endif

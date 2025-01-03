@@ -34,7 +34,7 @@ void Restaurant::reserveTable(shared_ptr<Reservation> reserve, int table_id)
     for (auto f : reserve->foods)
         bill += menu[f.first] * f.second;
 
-    reserve->setBill(bill);
+    reserve->bill = bill;
 }
 
 bool Restaurant::isInMenu(const food &name)
