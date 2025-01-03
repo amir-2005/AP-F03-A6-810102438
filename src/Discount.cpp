@@ -31,7 +31,7 @@ void FoodDiscount::apply(shared_ptr<Reservation> reserve)
         if (item.first == name)
         {
             if (type == TYPE_AMOUNT)
-                reserve->food_discount += value;
+                reserve->food_discount += value * item.second;
             else
             {
                 int discount_amount = food_price * (float(value) / 100);

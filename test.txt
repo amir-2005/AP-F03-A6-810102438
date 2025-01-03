@@ -7,7 +7,7 @@ GET restaurants ?
 POST increase_budget ? amount "10000000"
 GET show_budget ?
 POST reserve ? restaurant_name "sib" table_id "3" start_time "14" end_time "16" foods "berger,berger"
-POST reserve ? restaurant_name "sib" table_id "3" start_time "13" end_time "14" foods "pitza,pitza"
+POST reserve ? restaurant_name "sib" table_id "3" start_time "13" end_time "14" foods "pizza,pizza"
 GET restaurant_detail ? restaurant_name "sib"
 GET reserves ?
 DELETE reserve ? restaurant_name "sib" reserve_id "2"
@@ -24,7 +24,7 @@ GET restaurant_detail ? restaurant_name "maman joon"
 POST reserve ? restaurant_name "sib" table_id "3" start_time "14" end_time "16" foods "berger,berger"
 POST increase_budget ? amount "10000000"
 POST reserve ? restaurant_name "sib" table_id "3" start_time "14" end_time "16" foods "berger,berger"
-POST reserve ? restaurant_name "maman joon" table_id "3" start_time "13" end_time "14" foods "pitza,pitza"
+POST reserve ? restaurant_name "maman joon" table_id "3" start_time "13" end_time "14" foods "pizza,pizza"
 GET reserves ?
-DELETE reserve ? restaurant_name "sib" reserve_id "1"
+DELETE reserve ? restaurant_name "maman joon" reserve_id "1"
 GET reserves ?
