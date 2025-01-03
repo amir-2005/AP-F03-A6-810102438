@@ -1,6 +1,8 @@
 #ifndef DISCOUNT_HPP
 #define DISCOUNT_HPP
 
+class Discount;
+
 #include "libraries.hpp"
 #include "Reservation.hpp"
 using namespace std;

@@ -5,14 +5,16 @@
 #include "constants.hpp"
 #include "User.hpp"
 #include "Restaurant.hpp"
+#include "Discount.hpp"
 #include "Exceptions.hpp"
 
 class UTaste
 {
 public:
-    UTaste(string path_to_restaurants, string path_to_districts);
+    UTaste(string path_to_restaurants, string path_to_districts, string path_to_discounts);
     void loadDistrictsData(string path_to_districts);
     void loadRestaurantData(string path_to_restaurants);
+    void loadDiscountsData(string path_to_discounts);
     void signUp(string username, string password);
     void login(string username, string password);
     void logout();
@@ -23,9 +25,6 @@ public:
     string setReservation(string restaurant_name, int table_id, time_period reserve_time, map<food, int> foods);
     string showReservations(string restaurant_name, int reserve_id);
     void deleteReservation(string restaurant_name, int reserve_id);
-
-    void test();
-
 private:
     shared_ptr<User> current_user = nullptr;
     list<shared_ptr<User>> users;

@@ -1,9 +1,10 @@
 #include "Utaste.hpp"
 
-UTaste::UTaste(string path_to_restaurants, string path_to_districts)
+UTaste::UTaste(string path_to_restaurants, string path_to_districts, string path_to_discounts)
 {
     loadRestaurantData(path_to_restaurants);
     loadDistrictsData(path_to_districts);
+    loadDiscountsData(path_to_discounts);
 }
 
 void UTaste::loadRestaurantData(string path_to_restaurants)
@@ -99,6 +100,68 @@ void UTaste::loadDistrictsData(string path_to_districts)
                 d->rests.push_back(r);
                 break;
             }
+}
+
+void UTaste::loadDiscountsData(string path_to_discounts)
+{
+    ifstream disc_file(path_to_discounts);
+    string line;
+    if (!disc_file)
+        throw(invalid_argument(UNEXPECTED_ERROR_FILE_OPEN + path_to_discounts));
+
+    getline(disc_file, line);
+    while (getline(disc_file, line))
+    {
+        stringstream ss(line);
+        string rest_name, total_price, first_order, food_discounts;
+        shared_ptr<Restaurant> restaurant;
+
+        getline(ss, rest_name, DELIM);
+        getline(ss, total_price, DELIM);
+        getline(ss, first_order, DELIM);
+        getline(ss, food_discounts, DELIM);
+
+        for (auto r : rests)
+            if (r->name == rest_name)
+                restaurant = r;
+
+        if (food_discounts != NO_DISCOUNT)
+        {
+            stringstream foods_ss(food_discounts);
+            string food_discount;
+            while (getline(foods_ss, food_discount, DISCOUNT_DELIM))
+            {
+                string type, value, food_name;
+                stringstream food_discount_ss(food_discount);
+                getline(food_discount_ss, type, INNER_DELIM);
+                getline(food_discount_ss, food_name, PRICE_DELIM);
+                getline(food_discount_ss, value);
+
+                restaurant->discounts.push_back(make_shared<FoodDiscount>(type, stoi(value), food_name));
+            }
+        }
+
+        if (first_order != NO_DISCOUNT)
+        {
+            string type, value;
+            stringstream first_order_ss(first_order);
+            getline(first_order_ss, type, INNER_DELIM);
+            getline(first_order_ss, value, INNER_DELIM);
+
+            restaurant->discounts.push_back(make_shared<FirstOrderDiscount>(type, stoi(value)));
+        }
+
+        if (total_price != NO_DISCOUNT)
+        {
+            string type, min, value;
+            stringstream total_price_ss(total_price);
+            getline(total_price_ss, type, INNER_DELIM);
+            getline(total_price_ss, min, INNER_DELIM);
+            getline(total_price_ss, value, INNER_DELIM);
+
+            restaurant->discounts.push_back(make_shared<TotalPriceDiscount>(type, stoi(value), stoi(min)));
+        }
+    }
 }
 
 void UTaste::signUp(string username, string password)
@@ -233,7 +296,7 @@ string UTaste::getRestaurantsList(food food)
     restaurantBFS(current_user->distric, visited, output, food);
 
     if (output.empty())
-        throw(Empty(MSG_EMPTY_NO_RESTAURANT+ food));
+        throw(Empty(MSG_EMPTY_NO_RESTAURANT + food));
 
     return output;
 }
@@ -245,7 +308,7 @@ string UTaste::getRestaurantInfo(string restaurant_name)
 
     shared_ptr<Restaurant> restaurant;
 
-    for (auto r: rests)
+    for (auto r : rests)
         if (r->name == restaurant_name)
         {
             restaurant = r;
@@ -268,14 +331,14 @@ void UTaste::restaurantBFS(shared_ptr<District> district, vector<string> &visite
                 output += r->name + "(" + district->name + ")\n";
         }
         visited.push_back(district->name);
-        for (auto n: district->neighbors)
+        for (auto n : district->neighbors)
             restaurantBFS(n, visited, output, food);
     }
 }
 
 string UTaste::showReservations(string restaurant_name, int reserve_id)
 {
-    for (auto user:users)
+    for (auto user : users)
         if (user != current_user && user->hasThisReservation(restaurant_name, reserve_id))
             throw(PermissionDenied(MSG_PERMISSION_DENIED_RESERVATION));
 
@@ -284,7 +347,7 @@ string UTaste::showReservations(string restaurant_name, int reserve_id)
 
 void UTaste::deleteReservation(string restaurant_name, int reserve_id)
 {
-    for (auto user:users)
+    for (auto user : users)
         if (user != current_user && user->hasThisReservation(restaurant_name, reserve_id))
             throw(PermissionDenied(MSG_PERMISSION_DENIED_RESERVATION));
 

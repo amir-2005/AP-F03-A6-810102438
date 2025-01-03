@@ -11,8 +11,9 @@ typedef pair<unsigned, unsigned> time_period;
 const char DELIM = ',';
 const char INNER_DELIM = ';';
 const char PRICE_DELIM = ':';
-const string ARGS_START_DELIM = "?";
+const char DISCOUNT_DELIM = '|';
 
+const string ARGS_START_DELIM = "?";
 const string PUT_COMMAND_TYPE = "PUT";
 const string GET_COMMAND_TYPE = "GET";
 const string POST_COMMAND_TYPE = "POST";
@@ -87,8 +88,8 @@ const string RESTAURANT_INFO_TIME = "Time";
 const string RESTAURANT_INFO_MENU = "Menu";
 
 const string TYPE_AMOUNT = "amount";
-const string TYPE_PERCENTAGE = "percentage";
-
+const string TYPE_PERCENTAGE = "percent";
+const string NO_DISCOUNT = "none";
 const int FULL_DAY_TIME = 24;
 
 #endif
