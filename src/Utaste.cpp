@@ -353,3 +353,16 @@ void UTaste::deleteReservation(string restaurant_name, int reserve_id)
 
     current_user->removeReservation(restaurant_name, reserve_id);
 }
+
+string UTaste::showBudget()
+{
+    return to_string(current_user->budget);
+}
+
+void UTaste::increaseBudget(int amount)
+{
+    if (amount < 0)
+        throw(BadRequest(MSG_BAD_REQUEST_NEGATIVE));
+
+    current_user->budget += amount;
+}

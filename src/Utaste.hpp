@@ -24,7 +24,11 @@ public:
     string getRestaurantInfo(string restaurant_name);
     string setReservation(string restaurant_name, int table_id, time_period reserve_time, map<food, int> foods);
     string showReservations(string restaurant_name, int reserve_id);
+    string showBudget();
+    void increaseBudget(int amount);
     void deleteReservation(string restaurant_name, int reserve_id);
+
+
 private:
     shared_ptr<User> current_user = nullptr;
     list<shared_ptr<User>> users;

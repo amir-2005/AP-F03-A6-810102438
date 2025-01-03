@@ -28,8 +28,10 @@ const string RESTAURANTS_COMMAND = "restaurants";
 const string RESTAURANT_DETAIL_COMMAND = "restaurant_detail";
 const string RESERVE_COMMAND = "reserve";
 const string SHOW_RESERVES_COMMAND = "reserves";
-const vector<string> COMMANDS = {SIGNUP_COMMAND, LOGIN_COMMAND, LOGOUT_COMMAND,
-                                 DISTRICTS_COMMAND, MY_DISTRICT_COMMAND, RESTAURANTS_COMMAND,
+const string SHOW_BUDGET_COMMAND = "show_budget";
+const string INCREASE_BUDGET_COMMAND = "increase_budget";
+const vector<string> COMMANDS = {SIGNUP_COMMAND, LOGIN_COMMAND, LOGOUT_COMMAND, INCREASE_BUDGET_COMMAND,
+                                 DISTRICTS_COMMAND, MY_DISTRICT_COMMAND, RESTAURANTS_COMMAND, SHOW_BUDGET_COMMAND,
                                  RESTAURANT_DETAIL_COMMAND, RESERVE_COMMAND, SHOW_RESERVES_COMMAND};
 
 const string BAD_REQUEST_MSG = "Bad Request";
@@ -48,6 +50,7 @@ const string ARG_KEY_START_TIME = "start_time";
 const string ARG_KEY_END_TIME = "end_time";
 const string ARG_KEY_FOODS = "foods";
 const string ARG_KEY_RESERVE_ID = "reserve_id";
+const string ARG_KEY_AMOUNT = "amount";
 
 const string UNEXPECTED_ERROR_FILE_OPEN = "Unexpected error: unable to open file ";
 const string UNEXPECTED_ERROR_FILE_FORMAT = "Unexpected error: file format is incorrect";
@@ -63,6 +66,7 @@ const string MSG_BAD_REQUEST_FORMAT = "invalid input format";
 const string MSG_BAD_REQUEST_ARGUMENTS = "invalid arguments for ";
 const string MSG_BAD_REQUEST_RESTAURNT = "restaurant should be specified";
 const string MSG_BAD_REQUEST_RESERVE_ID = "reserve id and restaurant name should be specified";
+const string MSG_BAD_REQUEST_NEGATIVE = "can't be negative";
 
 const string MSG_PERMISSION_DENIED_SIGN_UP = "can't sign up while logged in";
 const string MSG_PERMISSION_DENIED_DUPLICATED = "The user is already signed up";

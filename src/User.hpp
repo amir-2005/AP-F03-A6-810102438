@@ -22,6 +22,7 @@ public:
     string getName() { return name; };
     string getPassword() { return password; };
     shared_ptr<District> distric;
+    int budget = 0;
 
 private:
     list<shared_ptr<Reservation>> reservs;

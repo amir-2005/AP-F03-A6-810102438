@@ -49,6 +49,14 @@ Terminal::Terminal(UTaste _utaste) : utaste(_utaste)
             {
                 handleDeleteReserve();
             }
+            else if (command_type == GET_COMMAND_TYPE && command == SHOW_BUDGET_COMMAND)
+            {
+                handleShowBudget();
+            }
+            else if (command_type == POST_COMMAND_TYPE && command == INCREASE_BUDGET_COMMAND)
+            {
+                handleIncreaseBudget();
+            }
         }
         catch (const exception &e)
         {
@@ -68,7 +76,7 @@ void Terminal::extractCommandArgs(string input)
 
     ss >> command;
     if (find(COMMANDS.begin(), COMMANDS.end(), command) == COMMANDS.end())
-        throw(BadRequest(MSG_BAD_REQUEST_COMMAND));
+        throw(NotFound(MSG_NOT_FOUND + command));
 
     ss >> temp;
     if (ARGS_START_DELIM != temp)
@@ -182,5 +190,24 @@ void Terminal::handleDeleteReserve()
         throw(BadRequest(MSG_BAD_REQUEST_RESERVE_ID));
 
     utaste.deleteReservation(args[ARG_KEY_RESTAURANT_NAME], stoi(args[ARG_KEY_RESERVE_ID]));
+    cout << SUCCESS_MSG << endl;
+}
+
+void Terminal::handleShowBudget()
+{
+    cout << utaste.showBudget() << endl;
+}
+
+void Terminal::handleIncreaseBudget()
+{    
+    if (args.find(ARG_KEY_AMOUNT) == args.end())    
+        throw(BadRequest(MSG_BAD_REQUEST_ARGUMENTS + INCREASE_BUDGET_COMMAND));
+
+    string amount = args[ARG_KEY_AMOUNT];
+
+    if (!all_of(amount.begin(), amount.end(), ::isdigit) || amount.empty())
+        throw(BadRequest(MSG_BAD_REQUEST_ARGUMENTS + INCREASE_BUDGET_COMMAND));
+    
+    utaste.increaseBudget(stoi(amount));
     cout << SUCCESS_MSG << endl;
 }

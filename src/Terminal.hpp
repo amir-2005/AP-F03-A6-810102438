@@ -29,6 +29,8 @@ private:
     void handleShowReserves();
     void handleReserve();
     void handleDeleteReserve();
+    void handleShowBudget();
+    void handleIncreaseBudget();
 
 };
 
