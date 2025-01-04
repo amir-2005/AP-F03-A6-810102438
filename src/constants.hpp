@@ -102,6 +102,7 @@ const string RESTAURANT_INFO_FIRST_DISCOUNT = "First Order Discount";
 
 const string TYPE_AMOUNT = "amount";
 const string TYPE_PERCENTAGE = "percent";
+const string TYPE_PERCENTAGE_NAME = "percentage";
 const string NO_DISCOUNT = "none";
 
 const int FULL_DAY_TIME = 24;

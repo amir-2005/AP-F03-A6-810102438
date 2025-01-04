@@ -14,7 +14,7 @@ public:
 
     const char *what() const throw()
     {
-        return message.c_str();
+        return default_message.c_str();
     }
 
 private:
@@ -32,7 +32,7 @@ public:
 
     const char *what() const throw()
     {
-        return message.c_str();
+        return default_message.c_str();
     }
 
 private:
@@ -50,7 +50,7 @@ public:
 
     const char *what() const throw()
     {
-        return message.c_str();
+        return default_message.c_str();
     }
 
 private:
@@ -68,7 +68,7 @@ public:
 
     const char *what() const throw()
     {
-        return message.c_str();
+        return default_message.c_str();
     }
 
 private:

@@ -238,6 +238,7 @@ string UTaste::setReservation(string restaurant_name, int table_id, time_period 
             int final_bill = rest->reserveTable(reservation, table_id);
             if (final_bill > current_user->budget)
                 throw(BadRequest(MSG_BAD_REQUEST_LOW_BUDGET));
+            current_user->budget -= final_bill;
             current_user->addReservation(reservation);
             return reservation->getInfo();
         }
@@ -329,7 +330,7 @@ void UTaste::restaurantBFS(shared_ptr<District> district, vector<string> &visite
         for (auto r : district->rests)
         {
             if (food.empty() || (r->getPriceInMenu(food) == 0))
-                output += r->name + "(" + district->name + ")\n";
+                output += r->name + " (" + district->name + ")\n";
         }
         visited.push_back(district->name);
         for (auto n : district->neighbors)
@@ -339,6 +340,9 @@ void UTaste::restaurantBFS(shared_ptr<District> district, vector<string> &visite
 
 string UTaste::showReservations(string restaurant_name, int reserve_id)
 {
+    if (logged_in == false)
+        throw(PermissionDenied(MSG_PERMISSION_DENIED_NO_USER));
+
     for (auto user : users)
         if (user != current_user && user->hasThisReservation(restaurant_name, reserve_id))
             throw(PermissionDenied(MSG_PERMISSION_DENIED_RESERVATION));
@@ -348,6 +352,9 @@ string UTaste::showReservations(string restaurant_name, int reserve_id)
 
 void UTaste::deleteReservation(string restaurant_name, int reserve_id)
 {
+    if (logged_in == false)
+        throw(PermissionDenied(MSG_PERMISSION_DENIED_NO_USER));
+
     for (auto user : users)
         if (user != current_user && user->hasThisReservation(restaurant_name, reserve_id))
             throw(PermissionDenied(MSG_PERMISSION_DENIED_RESERVATION));
@@ -357,11 +364,16 @@ void UTaste::deleteReservation(string restaurant_name, int reserve_id)
 
 string UTaste::showBudget()
 {
+    if (logged_in == false)
+        throw(PermissionDenied(MSG_PERMISSION_DENIED_NO_USER));
+
     return to_string(current_user->budget);
 }
 
 void UTaste::increaseBudget(int amount)
 {
+    if (logged_in == false)
+        throw(PermissionDenied(MSG_PERMISSION_DENIED_NO_USER));
     if (amount < 0)
         throw(BadRequest(MSG_BAD_REQUEST_NEGATIVE));
 

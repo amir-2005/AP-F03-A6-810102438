@@ -42,15 +42,18 @@ void FoodDiscount::apply(shared_ptr<Reservation> reserve)
 
 string FirstOrderDiscount::info()
 {
-    return type + ", " + to_string(value);
+    string type_name = type == TYPE_PERCENTAGE ? TYPE_PERCENTAGE_NAME : TYPE_AMOUNT; 
+    return type_name + ", " + to_string(value);
 }
 
 string TotalPriceDiscount::info()
 {
-    return type + ", " + to_string(min_value) + ", " + to_string(value);
+    string type_name = type == TYPE_PERCENTAGE ? TYPE_PERCENTAGE_NAME : TYPE_AMOUNT; 
+    return type_name + ", " + to_string(min_value) + ", " + to_string(value);
 }
 
 string FoodDiscount::info()
 {
-    return name + "(" + type + ": " + to_string(value) + ")";
+    string type_name = type == TYPE_PERCENTAGE ? TYPE_PERCENTAGE_NAME : TYPE_AMOUNT; 
+    return name + "(" + type_name + ": " + to_string(value) + ")";
 }
