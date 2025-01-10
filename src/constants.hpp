@@ -37,7 +37,7 @@ const vector<string> COMMANDS = {SIGNUP_COMMAND, LOGIN_COMMAND, LOGOUT_COMMAND, 
 const string BAD_REQUEST_MSG = "Bad Request";
 const string NOT_FOUND_MSG = "Not Found";
 const string PERMISSION_DENIED_MSG = "Permission Denied";
-const string EMPTY_MSG = "EMPTY";
+const string EMPTY_MSG = "Empty";
 const string SUCCESS_MSG = "OK";
 
 const string ARG_KEY_USERNAME = "username";

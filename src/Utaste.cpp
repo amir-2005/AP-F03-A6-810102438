@@ -53,6 +53,9 @@ void UTaste::loadRestaurantData(string path_to_restaurants)
         rests.push_back(restaurant);
     }
 
+    sort(rests.begin(), rests.end(), [](shared_ptr<Restaurant> &a, shared_ptr<Restaurant> &b)
+         { return a->name < b->name; });
+
     rests_file.close();
 }
 
@@ -295,7 +298,8 @@ string UTaste::getRestaurantsList(food food)
     vector<string> visited;
     string output = "";
 
-    restaurantBFS(current_user->distric, visited, output, food);
+    list<shared_ptr<District>> queue = {current_user->distric};
+    restaurantBFS(current_user->distric, visited, queue , output, food);
 
     if (output.empty())
         throw(Empty(MSG_EMPTY_NO_RESTAURANT + food));
@@ -323,18 +327,23 @@ string UTaste::getRestaurantInfo(string restaurant_name)
     return restaurant->getInfo();
 }
 
-void UTaste::restaurantBFS(shared_ptr<District> district, vector<string> &visited, string &output, food &food)
+void UTaste::restaurantBFS(shared_ptr<District> district, vector<string> &visited, list<shared_ptr<District>> queue, string &output, food &food)
 {
     if (find(visited.begin(), visited.end(), district->name) == visited.end())
     {
         for (auto r : district->rests)
         {
-            if (food.empty() || (r->getPriceInMenu(food) == 0))
+            if (food.empty() || (r->getPriceInMenu(food) != 0))
                 output += r->name + " (" + district->name + ")\n";
         }
         visited.push_back(district->name);
+        queue.pop_front();
         for (auto n : district->neighbors)
-            restaurantBFS(n, visited, output, food);
+            if (find(queue.begin(), queue.end(), n) == queue.end())
+                queue.push_back(n);
+
+        for (auto d : queue)
+            restaurantBFS(d, visited, queue, output,food);
     }
 }
 

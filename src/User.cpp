@@ -64,7 +64,7 @@ string User::getReservationsInfo(string restaurant_name, int id)
 bool User::hasThisReservation(string restaurant_name, int reserve_id)
 {
     for (auto r : reservs)
-        if ((r->restaurant_name == restaurant_name) && (r->id = reserve_id))
+        if ((r->restaurant_name == restaurant_name) && (r->id == reserve_id))
             return true;
     return false;
 }

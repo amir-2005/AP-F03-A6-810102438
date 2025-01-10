@@ -57,7 +57,7 @@ Terminal::Terminal(UTaste _utaste) : utaste(_utaste)
             {
                 handleIncreaseBudget();
             }
-            else 
+            else
             {
                 throw(NotFound(MSG_NOT_FOUND + command));
             }
@@ -173,6 +173,8 @@ void Terminal::handleShowRestaurants()
 
 void Terminal::handleRestaurantDetail()
 {
+    if (args.find(ARG_KEY_RESTAURANT_NAME) == args.end())
+        throw(BadRequest(""));
     cout << utaste.getRestaurantInfo(args[ARG_KEY_RESTAURANT_NAME]);
 }
 
@@ -203,15 +205,15 @@ void Terminal::handleShowBudget()
 }
 
 void Terminal::handleIncreaseBudget()
-{    
-    if (args.find(ARG_KEY_AMOUNT) == args.end())    
+{
+    if (args.find(ARG_KEY_AMOUNT) == args.end())
         throw(BadRequest(MSG_BAD_REQUEST_ARGUMENTS + INCREASE_BUDGET_COMMAND));
 
     string amount = args[ARG_KEY_AMOUNT];
 
     if (!all_of(amount.begin(), amount.end(), ::isdigit) || amount.empty())
         throw(BadRequest(MSG_BAD_REQUEST_ARGUMENTS + INCREASE_BUDGET_COMMAND));
-    
+
     utaste.increaseBudget(stoi(amount));
     cout << SUCCESS_MSG << endl;
 }

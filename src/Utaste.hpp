@@ -32,11 +32,11 @@ public:
 private:
     shared_ptr<User> current_user = nullptr;
     list<shared_ptr<User>> users;
-    list<shared_ptr<Restaurant>> rests;
+    vector<shared_ptr<Restaurant>> rests;
     vector<shared_ptr<District>> districts;
     bool logged_in = false;
 
-    void restaurantBFS(shared_ptr<District> district, vector<string>& visited, string& output, food& food);
+    void restaurantBFS(shared_ptr<District> district, vector<string>& visited, list<shared_ptr<District>> queue, string& output, food& food);
     
 };
 
