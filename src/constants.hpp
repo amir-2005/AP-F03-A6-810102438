@@ -108,4 +108,7 @@ const string NO_DISCOUNT = "none";
 const int FULL_DAY_TIME = 24;
 const float REFUND_PERCENT = 0.6;
 
+const string SESSION_LOGGED_IN = "LOGGED_IN";
+
+
 #endif

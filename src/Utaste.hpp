@@ -1,6 +1,8 @@
 #ifndef UTASTE_HPP
 #define UTASTE_HPP
 
+class UTaste;
+
 #include "libraries.hpp"
 #include "constants.hpp"
 #include "User.hpp"

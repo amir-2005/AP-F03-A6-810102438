@@ -48,7 +48,7 @@ string User::getReservationsInfo(string restaurant_name, int id)
 
     reservs.sort([](const shared_ptr<Reservation> &a, const shared_ptr<Reservation> &b)
                  { return *a < *b; });
-                 
+
     string output = "";
     for (auto r : reservs)
         if (restaurant_name.empty() || r->restaurant_name == restaurant_name)

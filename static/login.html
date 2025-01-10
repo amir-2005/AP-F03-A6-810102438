@@ -1,0 +1,125 @@
+<!DOCTYPE html>  
+<html lang="en">  
+
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Login Page</title>  
+    <style>  
+        /* Reset some default styles */  
+        body, h1, h2, form, a {  
+            margin: 0;  
+            padding: 0;  
+            box-sizing: border-box;  
+        }  
+
+        /* General body styles */  
+        body {  
+            font-family: Arial, sans-serif;  
+            background-color: #f4f4f4;  
+            color: #333;  
+            display: flex;  
+            flex-direction: column; /* Stack elements vertically */  
+            justify-content: center;  
+            align-items: center;  
+            height: 100vh;  
+            text-align: center;  
+            padding: 20px;  
+        }  
+
+        /* Heading Styles */  
+        h1 {  
+            font-size: 2.5em;  
+            margin-bottom: 20px;  
+            color: #5a67d8; /* Primary color */  
+        }  
+
+        h2 {  
+            font-size: 2em;  
+            margin-bottom: 15px;  
+            color: #4c51bf; /* Different shade for contrast */  
+        }  
+
+        /* Section styles */  
+        section {  
+            background: white;  
+            padding: 30px;  
+            border-radius: 8px;  
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  
+            width: 100%;  
+            max-width: 400px;  
+            margin-bottom: 20px; /* Space between section and links below */  
+        }  
+
+        /* Form styles */  
+        form {  
+            display: flex;  
+            flex-direction: column;  
+        }  
+
+        /* Input field styles */  
+        input[type="text"],   
+        input[type="password"] {  
+            margin-bottom: 50px;  
+            padding: 10px;  
+            border: 1px solid #ccc;  
+            border-radius: 4px;  
+            font-size: 1em;  
+        }  
+
+        input[type="submit"] {  
+            padding: 10px;  
+            background-color: #5a67d8; /* Primary color */  
+            color: white;  
+            border: none;  
+            border-radius: 4px;  
+            cursor: pointer;  
+            font-size: 1em;  
+            transition: background-color 0.3s;  
+        }  
+
+        input[type="submit"]:hover {  
+            background-color: #4c51bf; /* Darker shade for hover */  
+        }  
+
+        /* Link styles */  
+        a {  
+            display: block; /* Ensure links take full width */  
+            margin-top: 15px;  
+            color: #5a67d8;  
+            text-decoration: none;  
+            font-weight: bold;  
+        }  
+
+        a:hover {  
+            text-decoration: underline;  
+        }  
+
+        /* Media query for responsiveness */  
+        @media (max-width: 600px) {  
+            body {  
+                padding: 10px;  
+            }  
+
+            h1 {  
+                font-size: 2em;  
+            }  
+        }  
+    </style>  
+</head>  
+
+<body>  
+    <h1>Login to your UTaste account</h1>  
+    <section>  
+        <h2>Login</h2>  
+        <form action="/login" method="post">  
+            <input name="username" type="text" placeholder="Username" required>  
+            <input name="password" type="password" placeholder="Password" required>  
+            <input type="submit" value="Login">  
+        </form>  
+    </section>  
+
+    <a href="/signup">Did not have an account? Sign up</a>  
+</body>  
+
+</html>
