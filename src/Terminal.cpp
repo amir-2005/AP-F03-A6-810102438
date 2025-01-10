@@ -213,7 +213,6 @@ void Terminal::handleIncreaseBudget()
 
     if (!all_of(amount.begin(), amount.end(), ::isdigit) || amount.empty())
         throw(BadRequest(MSG_BAD_REQUEST_ARGUMENTS + INCREASE_BUDGET_COMMAND));
-
     utaste.increaseBudget(stoi(amount));
     cout << SUCCESS_MSG << endl;
 }

@@ -100,10 +100,13 @@ string Restaurant::getInfo()
 
 void Restaurant::removeReservation(int reserve_id)
 {
-    for (auto table : tables)
+    for (auto& table : tables)
         for (auto r : table)
             if (r->id == reserve_id)
-                table.erase(std::remove(table.begin(), table.end(), r), table.end());
+            {
+                table.erase(std::find(table.begin(), table.end(), r));
+                return;
+            }
 
     throw(NotFound(name + to_string(reserve_id) + MSG_NOT_FOUND));
 }

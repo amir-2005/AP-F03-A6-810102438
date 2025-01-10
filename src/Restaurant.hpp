@@ -25,6 +25,8 @@ public:
     int getPriceInMenu(const food &name);
     list<shared_ptr<Discount>> discounts;
 
+    void reduce_id() {--last_reserve_id;};
+
 private:
     map<food, int> menu;
     time_period working_time;

@@ -240,7 +240,11 @@ string UTaste::setReservation(string restaurant_name, int table_id, time_period 
         {
             int final_bill = rest->reserveTable(reservation, table_id);
             if (final_bill > current_user->budget)
+            {
+                rest->removeReservation(reservation->id);
+                rest->reduce_id();
                 throw(BadRequest(MSG_BAD_REQUEST_LOW_BUDGET));
+            }
             current_user->budget -= final_bill;
             current_user->addReservation(reservation);
             return reservation->getInfo();
@@ -369,6 +373,10 @@ void UTaste::deleteReservation(string restaurant_name, int reserve_id)
             throw(PermissionDenied(MSG_PERMISSION_DENIED_RESERVATION));
 
     current_user->removeReservation(restaurant_name, reserve_id);
+    
+    for (auto r : rests)
+        if (r->name == restaurant_name)
+            r->removeReservation(reserve_id);
 }
 
 string UTaste::showBudget()
@@ -385,6 +393,5 @@ void UTaste::increaseBudget(int amount)
         throw(PermissionDenied(MSG_PERMISSION_DENIED_NO_USER));
     if (amount < 0)
         throw(BadRequest(MSG_BAD_REQUEST_NEGATIVE));
-
     current_user->budget += amount;
 }
