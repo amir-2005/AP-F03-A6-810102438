@@ -95,6 +95,12 @@
             text-decoration: underline;  
         }  
 
+        p {
+            display: block;
+            color: #ed4913;  
+            margin-top: 15px;
+        }
+
         /* Media query for responsiveness */  
         @media (max-width: 600px) {  
             body {  
@@ -116,7 +122,14 @@
             <input name="username" type="text" placeholder="Username" required>  
             <input name="password" type="password" placeholder="Password" required>  
             <input type="submit" value="Login">  
-        </form>  
+        </form> 
+        <p>
+        <% if (context["situation"]=="PermissionDenied")
+            cout << "Incorrect Password ! Try Again";
+           else if (context["situation"]=="NotFound")
+            cout << "User Not Found !";
+        %> 
+        </p>
     </section>  
 
     <a href="/signup">Did not have an account? Sign up</a>  

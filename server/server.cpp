@@ -352,6 +352,7 @@ Response* ShowFile::callback(Request* req) {
     Response* res = new Response();
     res->setHeader("Content-Type", fileType_);
     res->setBody(utils::readFile(filePath_));
+    res->setSessionId("");      // Changed
     return res;
 }
 

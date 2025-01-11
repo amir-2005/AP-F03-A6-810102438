@@ -2,43 +2,72 @@
 
 using namespace std;
 
-Response* LoginHandler::callback(Request* req) {
+Response *LoginHandler::callback(Request *req)
+{
     string username = req->getBodyParam("username");
     string password = req->getBodyParam("password");
 
-    utaste.login(username, password);
+    Response *res = Response::redirect("/dashboard");
+    res->setSessionId(username);
 
-    Response* res = Response::redirect("/rand");
-    res->setSessionId(SESSION_LOGGED_IN);
+    try
+    {
+        utaste.login(username, password);
+    }
+    catch (const PermissionDenied &e)
+    {
+        res = Response::redirect("/login");
+        res->setSessionId(PERMISSION_DENIED_MSG);
+    }
+    catch (const NotFound &e)
+    {
+        res = Response::redirect("/login");
+        res->setSessionId(NOT_FOUND_MSG);
+    }
+
     return res;
 }
 
-Response* SignUpHandler::callback(Request* req) {
+Response *SignUpHandler::callback(Request *req)
+{
     string username = req->getBodyParam("username");
     string password = req->getBodyParam("password");
 
     utaste.signUp(username, password);
 
-    Response* res = Response::redirect("/rand");
-    res->setSessionId(SESSION_LOGGED_IN);
+    Response *res = Response::redirect("/dashboard");
+    res->setSessionId(username);
     return res;
 }
 
-Response* UploadHandler::callback(Request* req) {
-    std::string name = req->getBodyParam("file_name");
-    std::string file = req->getBodyParam("file");
-    utils::writeToFile(file, name);
-    Response* res = Response::redirect("/");
+Response *LogoutHandler::callback(Request *req)
+{
+    try
+    {
+        utaste.logout();
+    }
+    catch (const PermissionDenied &e)
+    {
+        cout << "Repeated Request";
+    }
+
+    Response *res = Response::redirect("/");
     return res;
 }
 
-ColorHandler::ColorHandler(const std::string& filePath)
-    : TemplateHandler(filePath) {}
+map<string, string> DashboardHandler::handle(Request *req)
+{
+    map<string, string> contex;
+    // if (utaste.current_user->getName() != req->getSessionId())
+    //     throw(PermissionDenied(MSG_PERMISSION_DENIED_NO_USER));
 
-std::map<std::string, std::string> ColorHandler::handle(Request* req) {
-    std::string newName = "I am " + req->getQueryParam("name");
-    std::map<std::string, std::string> context;
-    context["name"] = newName;
-    context["color"] = req->getQueryParam("color");
-    return context;
+    contex["username"] = req->getSessionId();
+    return contex;
+}
+
+map<string, string> ShowLogin::handle(Request *req)
+{
+    map<string, string> contex;
+    contex["situation"] = req->getSessionId();
+    return contex;
 }

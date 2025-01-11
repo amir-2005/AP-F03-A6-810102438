@@ -7,33 +7,52 @@
 
 #include "../server/server.hpp"
 
-class LoginHandler : public RequestHandler {
+class ShowLogin : public TemplateHandler
+{
 public:
-    LoginHandler(UTaste _utaste) : utaste(_utaste) {};
-    Response* callback(Request*) override;
+    ShowLogin(string file_path) : TemplateHandler(file_path) {};
+    map<string, string> handle(Request *req) override;
+};
+
+class LoginHandler : public RequestHandler
+{
+public:
+    LoginHandler(UTaste &_utaste) : utaste(_utaste) {};
+    Response *callback(Request *) override;
 
 private:
-    UTaste& utaste;
+    UTaste &utaste;
 };
 
-class SignUpHandler : public RequestHandler {
+class SignUpHandler : public RequestHandler
+{
 public:
-    SignUpHandler(UTaste _utaste) : utaste(_utaste) {};
-    Response* callback(Request*) override;
+    SignUpHandler(UTaste &_utaste) : utaste(_utaste) {};
+    Response *callback(Request *) override;
 
 private:
-    UTaste& utaste;
+    UTaste &utaste;
 };
 
-class UploadHandler : public RequestHandler {
+class DashboardHandler : public TemplateHandler
+{
 public:
-    Response* callback(Request*) override;
+    DashboardHandler(string file_path, UTaste &_utaste) : TemplateHandler(file_path), utaste(_utaste) {};
+    map<string, string> handle(Request *req) override;
+
+private:
+    UTaste &utaste;
 };
 
-class ColorHandler : public TemplateHandler {
+class LogoutHandler : public RequestHandler
+{
 public:
-    ColorHandler(const std::string& filePath);
-    std::map<std::string, std::string> handle(Request* req) override;
+    LogoutHandler(UTaste &_utaste) : utaste(_utaste) {};
+    Response *callback(Request *) override;
+
+private:
+    UTaste& utaste;  
 };
 
-#endif // HANDLERS_HPP_INCLUDE
+
+#endif

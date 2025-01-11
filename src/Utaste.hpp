@@ -29,10 +29,9 @@ public:
     string showBudget();
     void increaseBudget(int amount);
     void deleteReservation(string restaurant_name, int reserve_id);
-
+    shared_ptr<User> current_user = nullptr;
 
 private:
-    shared_ptr<User> current_user = nullptr;
     list<shared_ptr<User>> users;
     vector<shared_ptr<Restaurant>> rests;
     vector<shared_ptr<District>> districts;
