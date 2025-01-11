@@ -17,8 +17,9 @@ public:
         return default_message.c_str();
     }
 
-private:
     string message;
+
+private:
     string default_message = BAD_REQUEST_MSG;
 };
 
@@ -35,8 +36,9 @@ public:
         return default_message.c_str();
     }
 
+string message;
+
 private:
-    string message;
     string default_message = EMPTY_MSG;
 };
 
@@ -53,8 +55,9 @@ public:
         return default_message.c_str();
     }
 
-private:
     string message;
+
+private:
     string default_message = PERMISSION_DENIED_MSG;
 };
 
@@ -71,8 +74,9 @@ public:
         return default_message.c_str();
     }
 
-private:
     string message;
+
+private:
     string default_message = NOT_FOUND_MSG;
 
 };

@@ -30,10 +30,11 @@ public:
     void increaseBudget(int amount);
     void deleteReservation(string restaurant_name, int reserve_id);
     shared_ptr<User> current_user = nullptr;
+    vector<shared_ptr<Restaurant>> rests;
+    string last_error_msg = "";
 
 private:
     list<shared_ptr<User>> users;
-    vector<shared_ptr<Restaurant>> rests;
     vector<shared_ptr<District>> districts;
     bool logged_in = false;
 

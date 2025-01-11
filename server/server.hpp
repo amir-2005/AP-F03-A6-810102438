@@ -52,10 +52,10 @@ public:
 
     Response* callback(Request* req) override;
     virtual std::map<std::string, std::string> handle(Request* req);
+    TemplateParser* parser_;
 
 private:
     std::string filePath_;
-    TemplateParser* parser_;
 };
 
 class Server {

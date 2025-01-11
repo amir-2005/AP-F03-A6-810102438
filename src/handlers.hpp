@@ -39,6 +39,7 @@ class DashboardHandler : public TemplateHandler
 public:
     DashboardHandler(string file_path, UTaste &_utaste) : TemplateHandler(file_path), utaste(_utaste) {};
     map<string, string> handle(Request *req) override;
+    Response *callback(Request*) override;
 
 private:
     UTaste &utaste;
@@ -53,6 +54,29 @@ public:
 private:
     UTaste& utaste;  
 };
+
+
+class ReservationForm : public TemplateHandler
+{
+public:
+    ReservationForm(string path, UTaste &_utaste) : TemplateHandler(path) , utaste(_utaste){};
+    // Response *callback(Request *) override;
+    map<string, string> handle(Request *req) override;
+
+private:
+    UTaste& utaste;  
+};
+
+class ReservationHandler : public RequestHandler
+{
+public:
+    ReservationHandler(UTaste &_utaste) : utaste(_utaste){};
+    Response *callback(Request *) override;
+
+private:
+    UTaste& utaste;  
+};
+
 
 
 #endif

@@ -57,7 +57,7 @@ const string UNEXPECTED_ERROR_FILE_FORMAT = "Unexpected error: file format is in
 
 const string MSG_NOT_FOUND = " not found";
 const string MSG_NOT_FOUND_FOOD = "food is not availble";
-const string MSG_NOT_FOUND_TABLE_ID = "table id out of range";
+const string MSG_NOT_FOUND_TABLE_ID = "table id is out of range";
 const string MSG_NOT_FOUND_DISTRICT_SET = "user district is not set";
 
 const string MSG_BAD_REQUEST_COMMAND_TYPE = "invalid command type";

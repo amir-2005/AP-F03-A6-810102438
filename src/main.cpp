@@ -13,7 +13,8 @@ void mapServerPaths(Server &server, UTaste &utaste)
     server.post("/signup", new SignUpHandler(utaste));
     server.get("/dashboard", new DashboardHandler("template/dashboard.html", utaste));
     server.get("/restaurants", new DashboardHandler("template/dashboard.html", utaste));
-    server.get("/reservation", new DashboardHandler("template/dashboard.html", utaste));
+    server.get("/reservation", new ReservationForm("template/reservation.html", utaste));
+    server.post("/reservation", new ReservationHandler(utaste));
     server.get("/reserve_list", new DashboardHandler("template/dashboard.html", utaste));
     server.get("/logout", new LogoutHandler(utaste));
 }
