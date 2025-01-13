@@ -16,6 +16,8 @@ void mapServerPaths(Server &server, UTaste &utaste)
     server.get("/reservation", new ReservationForm("template/reservation.html", utaste));
     server.post("/reservation", new ReservationHandler(utaste));
     server.get("/reserve_list", new ReserveListHandler("template/reserve_list.html", utaste));
+    server.get("/budget", new BudgetPage("template/budget.html", utaste));
+    server.post("/budget", new BudgetHandler(utaste));
     server.get("/logout", new LogoutHandler(utaste));
 }
 

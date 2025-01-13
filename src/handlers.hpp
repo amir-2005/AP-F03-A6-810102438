@@ -87,4 +87,25 @@ private:
     UTaste &utaste;
 };
 
+class BudgetPage : public TemplateHandler
+{
+public:
+    BudgetPage(string path, UTaste &_utaste) : TemplateHandler(path), utaste(_utaste) {}
+    Response *callback(Request *) override;
+    map<string, string> handle(Request *req) override;
+
+private:
+    UTaste &utaste;
+};
+
+class BudgetHandler : public RequestHandler
+{
+public:
+    BudgetHandler(UTaste &_utaste) : utaste(_utaste) {};
+    Response *callback(Request *) override;
+
+private:
+    UTaste &utaste;
+};
+
 #endif

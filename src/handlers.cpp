@@ -34,7 +34,6 @@ Response *SignUpHandler::callback(Request *req)
     string password = req->getBodyParam("password");
 
     utaste.signUp(username, password);
-    utaste.increaseBudget(10000000);
 
     Response *res = Response::redirect("/dashboard");
     res->setSessionId(username);
@@ -218,5 +217,53 @@ Response *ReserveListHandler::callback(Request *req)
         res->setHeader("Content-Type", "text/html");
         res->setBody(parser_->getHtml(context));
     }
+    return res;
+}
+
+map<string, string> BudgetPage::handle(Request *req)
+{
+    map<string, string> context;
+    context["budget"] = utaste.showBudget();
+    context["msg"] = utaste.last_error_msg.budget;
+    utaste.last_error_msg.budget = "";
+    return context;
+}
+
+Response *BudgetPage::callback(Request *req)
+{
+    map<string, string> context;
+    Response *res = new Response();
+
+    if (utaste.current_user == nullptr || utaste.current_user->getName() != req->getSessionId())
+    {
+        res = Response::redirect("/");
+        res->setSessionId("");
+    }
+    else
+    {
+        context = this->handle(req);
+        res->setHeader("Content-Type", "text/html");
+        res->setBody(parser_->getHtml(context));
+    }
+    return res;
+}
+
+Response *BudgetHandler::callback(Request *req)
+{
+    Response *res;
+    string charge_str = req->getBodyParam("budget");
+    long long charge = stoi(charge_str);
+    try
+    {
+        utaste.increaseBudget(charge);
+        res = Response::redirect("/budget");
+        res->setSessionId(utaste.current_user->getName());
+    }
+    catch (const BadRequest &e)
+    {
+        res = Response::redirect("/budget");
+        utaste.last_error_msg.budget = e.message;
+    }
+
     return res;
 }

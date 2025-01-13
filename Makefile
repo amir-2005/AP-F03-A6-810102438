@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++11
+CXXFLAGS = -std=c++20
 
 BUILD_DIR = build
 TEMPLATE_DIR = .template

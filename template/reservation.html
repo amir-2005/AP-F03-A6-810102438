@@ -81,9 +81,10 @@
         } 
     </script>
     </fieldset>
-    <p style="color:rgb(241, 32, 5);"><% if (context["msg"] != "msg") {cout<<context["msg"];} %></p>
+    <p style="color:red"><% if (context["msg"] != "msg") {cout<<context["msg"];} %></p>
     <br><br>
-    <a href="/dashboard">Back to Dashboard</a>
+    <a href="/dashboard">Back to Dashboard</a><br>
+    <a href="/logout">Logout</a>
 </body>
 
 </html>
