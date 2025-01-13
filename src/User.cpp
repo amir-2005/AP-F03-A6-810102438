@@ -41,7 +41,7 @@ void User::removeReservation(string restaurnat_name, int reserve_id)
     throw(NotFound(restaurnat_name + to_string(reserve_id) + MSG_NOT_FOUND));
 }
 
-string User::getReservationsInfo(string restaurant_name, int id)
+vector<vector<string>> User::getReservationsInfo(string restaurant_name, int id)
 {
     if (reservs.empty())
         throw(Empty(MSG_EMPTY_NO_RESERVATION));
@@ -49,11 +49,11 @@ string User::getReservationsInfo(string restaurant_name, int id)
     reservs.sort([](const shared_ptr<Reservation> &a, const shared_ptr<Reservation> &b)
                  { return *a < *b; });
 
-    string output = "";
+    vector<vector<string>> output;
     for (auto r : reservs)
         if (restaurant_name.empty() || r->restaurant_name == restaurant_name)
             if (id == 0 || r->id == id)
-                output += r->getTotalInfo();
+                output.push_back(r->getTotalInfo());
 
     if (output.empty())
         throw(NotFound(restaurant_name + to_string(id) + MSG_NOT_FOUND));

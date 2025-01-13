@@ -13,7 +13,7 @@ class Reservation
 {
 public:
     Reservation(string _restaurant_name, int _table_id, time_period _time, map<food, int> _foods);
-    string getTotalInfo();
+    vector<string> getTotalInfo();
     string getInfo();
     string getTime();
     bool checkTimeInterference(time_period time_limit, bool shoud_be_in_period);

@@ -10,6 +10,14 @@ class UTaste;
 #include "Discount.hpp"
 #include "Exceptions.hpp"
 
+typedef struct errorMsg
+{
+    string reservation;
+    string reserve_list;
+    string login_signup;
+    string budget;
+} ErrorMsg;
+
 class UTaste
 {
 public:
@@ -25,13 +33,13 @@ public:
     string getRestaurantsList(food food);
     string getRestaurantInfo(string restaurant_name);
     string setReservation(string restaurant_name, int table_id, time_period reserve_time, map<food, int> foods);
-    string showReservations(string restaurant_name, int reserve_id);
+    vector<vector<string>> showReservations(string restaurant_name, int reserve_id);
     string showBudget();
     void increaseBudget(int amount);
     void deleteReservation(string restaurant_name, int reserve_id);
     shared_ptr<User> current_user = nullptr;
     vector<shared_ptr<Restaurant>> rests;
-    string last_error_msg = "";
+    ErrorMsg last_error_msg;
 
 private:
     list<shared_ptr<User>> users;

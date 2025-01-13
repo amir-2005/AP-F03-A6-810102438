@@ -34,6 +34,7 @@ Response *SignUpHandler::callback(Request *req)
     string password = req->getBodyParam("password");
 
     utaste.signUp(username, password);
+    utaste.increaseBudget(10000000);
 
     Response *res = Response::redirect("/dashboard");
     res->setSessionId(username);
@@ -95,9 +96,28 @@ map<string, string> ReservationForm::handle(Request *req)
     for (auto r : utaste.rests)
         contex[r->name] = "REST";
 
-    contex["msg"] = utaste.last_error_msg;
-    cout<<req->getSessionId();
+    contex["msg"] = utaste.last_error_msg.reservation;
+    utaste.last_error_msg.reservation = "";
     return contex;
+}
+
+Response *ReservationForm::callback(Request *req)
+{
+    map<string, string> context;
+    context = this->handle(req);
+    Response *res = new Response();
+
+    if (utaste.current_user == nullptr || utaste.current_user->getName() != req->getSessionId())
+    {
+        res = Response::redirect("/");
+        res->setSessionId("");
+    }
+    else
+    {
+        res->setHeader("Content-Type", "text/html");
+        res->setBody(parser_->getHtml(context));
+    }
+    return res;
 }
 
 Response *ReservationHandler::callback(Request *req)
@@ -136,18 +156,67 @@ Response *ReservationHandler::callback(Request *req)
     catch (const PermissionDenied &e)
     {
         res = Response::redirect("/reservation");
-        utaste.last_error_msg = e.message;
+        utaste.last_error_msg.reservation = e.message;
     }
     catch (const NotFound &e)
     {
         res = Response::redirect("/reservation");
-        utaste.last_error_msg = e.message;
+        utaste.last_error_msg.reservation = e.message;
     }
     catch (const Empty &e)
     {
         res = Response::redirect("/reservation");
-        utaste.last_error_msg = e.message;
+        utaste.last_error_msg.reservation = e.message;
+    }
+    catch (const BadRequest &e)
+    {
+        res = Response::redirect("/reservation");
+        utaste.last_error_msg.reservation = e.message;
     }
 
+    return res;
+}
+
+map<string, string> ReserveListHandler::handle(Request *req)
+{
+    map<string, string> context;
+    vector<vector<string>> reserve_list;
+    int index = 0;
+    try
+    {
+        reserve_list = utaste.current_user->getReservationsInfo("", 0);
+    }
+    catch (const Empty &e)
+    {
+        utaste.last_error_msg.reserve_list = e.message;
+    }
+    for (auto reserve : reserve_list)
+        for (auto str : reserve)
+        {
+            context[to_string(index)] = str;
+            index++;
+        }
+
+    context["msg"] = utaste.last_error_msg.reserve_list;
+    utaste.last_error_msg.reserve_list = "";
+    return context;
+}
+
+Response *ReserveListHandler::callback(Request *req)
+{
+    map<string, string> context;
+    Response *res = new Response();
+
+    if (utaste.current_user == nullptr || utaste.current_user->getName() != req->getSessionId())
+    {
+        res = Response::redirect("/");
+        res->setSessionId("");
+    }
+    else
+    {
+        context = this->handle(req);
+        res->setHeader("Content-Type", "text/html");
+        res->setBody(parser_->getHtml(context));
+    }
     return res;
 }

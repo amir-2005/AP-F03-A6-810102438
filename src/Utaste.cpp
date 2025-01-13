@@ -351,7 +351,7 @@ void UTaste::restaurantBFS(shared_ptr<District> district, vector<string> &visite
     }
 }
 
-string UTaste::showReservations(string restaurant_name, int reserve_id)
+vector<vector<string>> UTaste::showReservations(string restaurant_name, int reserve_id)
 {
     if (logged_in == false)
         throw(PermissionDenied(MSG_PERMISSION_DENIED_NO_USER));

@@ -15,7 +15,7 @@ void mapServerPaths(Server &server, UTaste &utaste)
     server.get("/restaurants", new DashboardHandler("template/dashboard.html", utaste));
     server.get("/reservation", new ReservationForm("template/reservation.html", utaste));
     server.post("/reservation", new ReservationHandler(utaste));
-    server.get("/reserve_list", new DashboardHandler("template/dashboard.html", utaste));
+    server.get("/reserve_list", new ReserveListHandler("template/reserve_list.html", utaste));
     server.get("/logout", new LogoutHandler(utaste));
 }
 
@@ -27,7 +27,7 @@ int main(int argc, char **argv)
         Server server(port);
         UTaste utaste(argv[2], argv[3], argv[4]);
         mapServerPaths(server, utaste);
-        std::cout << "Server running on port: " << port << std::endl;
+        cout << "Server running on port: " << port << std::endl;
         server.run();
     }
     catch (const invalid_argument &e)

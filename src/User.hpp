@@ -18,7 +18,7 @@ public:
     void removeReservation(string restaurnat_name, int reserve_id);
     bool canReserveInThisTime(time_period new_time);
     bool hasThisReservation(string restaurant_name, int reserve_id);
-    string getReservationsInfo(string restaurant_name, int id);
+    vector<vector<string>> getReservationsInfo(string restaurant_name, int id);
     string getName() { return name; };
     string getPassword() { return password; };
     shared_ptr<District> distric;

@@ -8,15 +8,24 @@ Reservation::Reservation(string _restaurant_name, int _table_id, time_period _ti
     foods = _foods;
 }
 
-string Reservation::getTotalInfo()
+vector<string> Reservation::getTotalInfo()
 {
-    string output = "";
-    output += to_string(id) + ": " + restaurant_name + " " + to_string(table_id) + " ";
-    output += to_string(time.first) + "-" + to_string(time.second);
+    vector<string> output;
+     + ": " + restaurant_name + " " + to_string(table_id) + " ";
+    output.push_back(to_string(id));
+    output.push_back(restaurant_name);
+    output.push_back(to_string(table_id));
+    output.push_back(to_string(time.first));
+    output.push_back(to_string(time.second));
+
+    string food_list;
     for (auto f : foods)
-        output += " " + f.first + "(" + to_string(f.second) + ")";
-    output += " " + to_string(bill) + " " + to_string(bill - getTotalDiscount());
-    output += "\n";
+        food_list += f.first + "(" + to_string(f.second) + ") ";
+    
+    output.push_back(food_list);
+    output.push_back(to_string(bill));
+    output.push_back(to_string(bill - getTotalDiscount()));
+
     return output;
 }
 
