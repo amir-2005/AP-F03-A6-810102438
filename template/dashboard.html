@@ -1,23 +1,102 @@
+<!-- Merged HTML and CSS for dashboard.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UTaste</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - UTaste</title>
+    <style>
+        /* Color Palette */
+        :root {
+            --primary-color: #B08850;
+            --secondary-color: #8A4A2C;
+            --background-color: #EDE0C8;
+            --text-color: #4B352A;
+            --button-text-color: #FFFFFF;
+            --error-color: #FF5252;
+        }   
+
+        /* General Reset */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1, h3 {
+            color: var(--primary-color);
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .link-button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .link-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .logout {
+            margin-top: 20px;
+            color: var(--error-color);
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: white;    
+            border: 1px solid var(--error-color);
+            border-radius: 5px;
+        }
+
+        .logout:hover {
+            background-color: var(--error-color);
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
-  <h1>Utaste</h1>
-  <h3>Welcome
-    <% cout << context["username"]; %>
-  </h3>
-  <div><a href="/restaurants"> Restaurants </a><br> </div>
-  <div><a href="/reservation"> Make a Reservation </a><br> </div>
-  <div><a href="/reserve_list"> Reservation List </a><br> </div>
-  <div><a href="/budget"> Manage Budget </a><br> </div>
-  <div><a href="/logout">Logout</a><br> </div>
-
+    <div class="container">
+        <h1>UTaste</h1>
+        <h3>Welcome <% cout << context["username"]; %></h3>
+        <div class="link-grid">
+            <a class="link-button" href="/restaurants">Restaurants</a>
+            <a class="link-button" href="/reservation">Make a Reservation</a>
+            <a class="link-button" href="/reserve_list">Reservation List</a>
+            <a class="link-button" href="/budget">Manage Budget</a>
+        </div>
+        <a class="logout" href="/logout">Logout</a>
+    </div>
 </body>
 
 </html>
+  
