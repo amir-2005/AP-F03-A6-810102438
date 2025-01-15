@@ -117,7 +117,7 @@ const string STYLE_FOR_RESTAURANTS_PAGE = R"(
         :root {
             --primary-color: #B08850;
             --secondary-color: #8A4A2C;
-            --background-color: #EDE0C8;
+            --background-color: #fceccc;
             --text-color: #4B352A;
             --button-text-color: #FFFFFF;
             --error-color: #FF5252;

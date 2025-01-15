@@ -377,19 +377,21 @@ Response *RestaurantHandler::callback(Request *req)
         body << "</table> </div> </div>";
 
         body << R"(<div class="content-box"> <h2>Tables</h2>
-            <table id="3">
+            <table>
             <tr>
                 <th>Id</th>
                 <th>Reservation Times</th>
             </tr>)";
         for (int i = 0; i < info[RESTAURANT_INFO_TABLE].size(); i++)
         {
-            body << "<tr><td>" << to_string(i + 1) << "</td>";
-            body << "<td>" << info[RESTAURANT_INFO_TABLE][i] << "<td></tr>";
+            body << "<tr>";
+            body << "<td>" << to_string(i + 1) << "</td>";
+            body << "<td>" << info[RESTAURANT_INFO_TABLE][i] << "</td>";
+            body << "</tr>";
         }
         body << "</table> </div>";
     }
-    body << "</body> </html>";
+    body << "</body></html>";
     res->setBody(body.str());
     return res;
 }
