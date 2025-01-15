@@ -51,8 +51,16 @@
             const newFoodItem = document.createElement('div');  
             newFoodItem.classList.add('food_item');  
             newFoodItem.innerHTML = `  
-                <input type="text" name="food_name" placeholder="Food name" required>  
-                <input type="number" name="food_quantity" min="1" value="1" placeholder="Quantity" required>  
+                <label for="food_name">Food name</label>
+                <select id="food_name" name="food_name" required>
+                    <% for (auto item:context) { %>
+                    <%if (item.second == "FOOD") { %>
+                    <option value="<% cout<<item.first;%>">
+                    <% cout<<item.first; %>
+                    </option>
+                    <% }} %>
+                </select>  
+                <input type="number" name="food_quantity" min="1" placeholder="Quantity" required>  
                 <button type="button" onclick="removeFood(this)">Remove</button>  
             `;  
             foodList.appendChild(newFoodItem);  
@@ -68,7 +76,7 @@
             const foodDataArray = [];  
 
             foodItems.forEach(item => {  
-                const foodName = item.querySelector('input[name="food_name"]').value;  
+                const foodName = item.querySelector('select[name="food_name"]').value;  
                 const foodQuantity = item.querySelector('input[name="food_quantity"]').value;  
                 foodDataArray.push(`${foodName},${foodQuantity}`);  
             });  

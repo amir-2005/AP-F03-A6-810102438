@@ -2,6 +2,14 @@
 
 using namespace std;
 
+map<string, string> ShowLoginSignUp::handle(Request *req)
+{
+    map<string, string> contex;
+    contex["msg"] = utaste.last_error_msg.login_signup;
+    utaste.last_error_msg.login_signup = "";
+    return contex;
+}
+
 Response *LoginHandler::callback(Request *req)
 {
     string username = req->getBodyParam("username");
@@ -17,12 +25,12 @@ Response *LoginHandler::callback(Request *req)
     catch (const PermissionDenied &e)
     {
         res = Response::redirect("/login");
-        utaste.last_error_msg.login_signup = PERMISSION_DENIED_MSG;
+        utaste.last_error_msg.login_signup = e.message;
     }
     catch (const NotFound &e)
     {
         res = Response::redirect("/login");
-        utaste.last_error_msg.login_signup = NOT_FOUND_MSG;
+        utaste.last_error_msg.login_signup = e.message;
     }
 
     return res;
@@ -42,12 +50,12 @@ Response *SignUpHandler::callback(Request *req)
     catch (const PermissionDenied &e)
     {
         res = Response::redirect("/signup");
-        utaste.last_error_msg.login_signup = PERMISSION_DENIED_MSG;
+        utaste.last_error_msg.login_signup = e.message;
     }
     catch (const BadRequest &e)
     {
         res = Response::redirect("/signup");
-        utaste.last_error_msg.login_signup = NOT_FOUND_MSG;
+        utaste.last_error_msg.login_signup = e.message;
     }
 
     return res;
@@ -95,18 +103,15 @@ Response *DashboardHandler::callback(Request *req)
     return res;
 }
 
-map<string, string> ShowLoginSignUp::handle(Request *req)
-{
-    map<string, string> contex;
-    contex["msg"] = utaste.last_error_msg.login_signup;
-    return contex;
-}
-
 map<string, string> ReservationForm::handle(Request *req)
 {
     map<string, string> contex;
     for (auto r : utaste.rests)
         contex[r->name] = "REST";
+
+    for (auto r : utaste.rests)
+        for (auto item : r->menu)
+            contex[item.first] = "FOOD";
 
     contex["msg"] = utaste.last_error_msg.reservation;
     utaste.last_error_msg.reservation = "";

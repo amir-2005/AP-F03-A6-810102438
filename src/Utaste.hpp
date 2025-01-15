@@ -16,6 +16,7 @@ typedef struct errorMsg
     string reserve_list;
     string login_signup;
     string budget;
+
 } ErrorMsg;
 
 class UTaste

@@ -26,9 +26,9 @@ public:
     list<shared_ptr<Discount>> discounts;
 
     void reduce_id() {--last_reserve_id;};
+    map<food, int> menu;
 
 private:
-    map<food, int> menu;
     time_period working_time;
     int last_reserve_id = 0;
     
