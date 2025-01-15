@@ -49,7 +49,7 @@ string FirstOrderDiscount::info()
     if (type == TYPE_PERCENTAGE)
         return to_string(value) + "%";
     else
-        return to_string(value); + "Toman";
+        return to_string(value); + "T";
 }
 
 string TotalPriceDiscount::info()
@@ -57,11 +57,11 @@ string TotalPriceDiscount::info()
     if (type == TYPE_PERCENTAGE)
         return to_string(value) + "%" + " off on orders above " + to_string(min_value);
     else
-        return to_string(value) + "Toman off on orders above " + to_string(min_value);
+        return to_string(value) + "T off on orders above " + to_string(min_value);
 }
 
 string FoodDiscount::info()
 {
-    string suffix = type == TYPE_PERCENTAGE ? "\% off" : "Toman off";
+    string suffix = type == TYPE_PERCENTAGE ? "\% off" : "T off";
     return name + ": " + to_string(value) + suffix;
 }

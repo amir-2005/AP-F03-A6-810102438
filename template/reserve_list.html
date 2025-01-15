@@ -2,56 +2,137 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UTaste</title>
-  <style>  
-    table {  
-        width: 100%;  
-        border-collapse: collapse;  
-    }  
-    th, td {  
-        border: 1px solid #ddd;  
-        padding: 8px;  
-        text-align: left;  
-    }  
-    th {  
-        background-color: #f2f2f2;  
-    }  
-</style>  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation List - UTaste</title>
+    <style>
+        :root {
+            --primary-color: #B08850;
+            --secondary-color: #8A4A2C;
+            --background-color: #EDE0C8;
+            --text-color: #4B352A;
+            --button-text-color: #FFFFFF;
+            --error-color: #FF5252;
+        }
+
+
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+        }
+
+        table {
+            width: 90%;
+            max-width: 800px;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid var(--primary-color);
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            color: white;
+            background-color: var(--primary-color);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            margin: 20px 0;
+        }
+
+        .top-links {
+            width: 98%;
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            top: 20px;
+            padding: 0 20px;
+        }
+
+        .link-button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .link-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .logout {
+            color: var(--error-color);
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: var(--background-color);
+            border: 1px solid var(--error-color);
+            border-radius: 5px;
+        }
+
+        .logout:hover {
+            background-color: var(--error-color);
+            color: white;
+        }
+    </style>
 </head>
 
-<body>  
+<body>
+    <div class="top-links">
+        <a class="link-button" href="/dashboard">Back to Dashboard</a>
+        <a class="logout" href="/logout">Logout</a>
+    </div>
 
-    <h2>Reservation List</h2>  
-    <table>  
-        <thead>  
-            <tr>  
-                <th>Order ID</th>  
-                <th>Restaurant</th>  
-                <th>Table Number</th>  
-                <th>Start Time</th>  
-                <th>End Time</th>  
-                <th>Items</th>  
-                <th>Price Before Dsicount</th>  
-                <th>Price After Dsicount</th>   
-            </tr>  
-        </thead>  
-        <tbody>  
-            <%for (long unsigned int i=0; i<context.size()/8; i++) {%>
-            <tr>  
-                <%for (int j=0; j<8; j++) {%>
-                <td><%cout<<context[to_string(8*i+j)];%></td>  
-                <%}%>
+    <h2>Reservation List</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Restaurant</th>
+                <th>Table Number</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Items</th>
+                <th>Price Before Discount</th>
+                <th>Price After Discount</th>
             </tr>
-            <%}%>
-        </tbody>  
-    </table>  
-    
-    <p style="color: red;"><%if(context["msg"]!="msg"){cout<<context["msg"];} %></p>
+        </thead>
+        <tbody>
+            <%for (long unsigned int i=0; i<context.size()/8; i++) {%>
+                <tr>
+                    <%for (int j=0; j<8; j++) {%>
+                        <td>
+                            <%cout<<context[to_string(8*i+j)];%>
+                        </td>
+                        <%}%>
+                </tr>
+                <%}%>
+        </tbody>
+    </table>
 
-    <a href="/dashboard">Back to Dashboard</a><br>
-    <a href="/logout">Logout</a>
-    </body>  
+    <p class="error-message">
+        <%if(context["msg"]!="msg"){cout<<context["msg"]; } %>
+    </p>
+</body>
 
 </html>

@@ -1,3 +1,4 @@
+<!-- Merged HTML and CSS for reservation.html -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,92 +7,226 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Table Reservation</title>
     <style>
-        .food_item {
+        /* Color Palette */
+        :root {
+            --primary-color: #B08850;
+            --secondary-color: #8A4A2C;
+            --background-color: #EDE0C8;
+            --text-color: #4B352A;
+            --button-text-color: #FFFFFF;
+            --error-color: #FF5252;
+        }
+
+        /* General Reset */
+        body {
+            margin: 0;
+            font-family: 'roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: var(--primary-color);
+        }
+
+        /* Links */
+        a {
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        /* Buttons */
+        button,
+        input[type="submit"] {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 1%;
+        }
+
+        button:hover,
+        input[type="submit"]:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Error Messages */
+        .error-message {
+            color: var(--error-color);
+        }
+
+        section,
+        fieldset {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin: 20px 0;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #reservationForm {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #reservationForm label {
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        #reservationForm input,
+        #reservationForm select {
             margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #food_list .food_item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* Links in reservation.html */
+        #logout-link,
+        #dashboard-link {
+            position: fixed;
+            top: 20px;
+        }
+
+        #logout-link {
+            color: var(--error-color);
+            background-color: var(--background-color);
+            border: 1px solid var(--error-color);
+            right: 20px;
+        }
+
+        #logout-link:hover {
+            background-color: var(--error-color);
+            color: white;
+        }
+
+        #dashboard-link {
+            color: white;
+            background-color: var(--primary-color);
+            left: 20px;
+        }
+
+        #dashboard-link:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .time-group {
+            display: flex;
+            gap: 15px;
         }
     </style>
 </head>
 
 <body>
+    <a id="dashboard-link" href="/dashboard">Back to Dashboard</a>
+    <a id="logout-link" href="/logout">Logout</a>
+
     <fieldset>
-    <h1>Reserve a Table</h1>
-    <form action="/reservation" method="POST" id="reservationForm" onsubmit="return prepareCSV();">
-        <label for="restaurant-name">Restaurant Name:</label>
-        <select id="restaurant-name" name="restaurant_name" required>
+        <h1>Reserve a Table</h1>
+        <form action="/reservation" method="POST" id="reservationForm" onsubmit="return prepareCSV();">
+            <label for="restaurant-name">Restaurant Name:</label>
+            <select id="restaurant-name" name="restaurant_name" required>
                 <% for (auto item:context) { %>
-                <%if (item.second == "REST") { %>
-                <option value="<% cout<<item.first;%>">
-                    <% cout<<item.first; %>
-                </option>
-                <% }} %>
-        </select>
-        <br><br>
+                    <%if (item.second=="REST" ) { %>
+                        <option value="<% cout<<item.first;%>">
+                            <% cout<<item.first; %>
+                        </option>
+                        <% }} %>
+            </select>
 
-        <label for="table_id">Table ID:</label>
-        <input type="number" id="table_id" name="table_id" min="1" required><br><br>
+            <label for="table_id">Table ID:</label>
+            <input type="number" id="table_id" name="table_id" min="1" required>
 
-        <label for="start_time">Start Time (1-24):</label>
-        <input type="number" id="start_time" name="start_time" min="1" max="24" required><br><br>
+            <div class="time-group">
+                <div>
+                    <label for="start_time">Start Time (1-24):</label>
+                    <input type="number" id="start_time" name="start_time" min="1" max="24" required>
+                </div>
+                <div>
+                    <label for="end_time">End Time (1-24):</label>
+                    <input type="number" id="end_time" name="end_time" min="1" max="24" required>
+                </div>
+            </div>
 
-        <label for="end_time">End Time (1-24):</label>
-        <input type="number" id="end_time" name="end_time" min="1" max="24" required><br><br>
+            <h3>Select Food Items:</h3>
+            <div id="food_list"></div>
+            <button type="button" onclick="addFood()">Add Food</button>
 
-        <h3>Select Food Items:</h3>
-        <div id="food_list">
-        </div>
-        <button type="button" onclick="addFood()">Add Food</button><br><br>
+            <input type="hidden" name="food_data" id="food_data">
+            <input type="submit" value="Reserve Table">
+        </form>
+    </fieldset>
 
-        <input type="hidden" name="food_data" id="food_data"> 
-        <input type="submit" value="Reserve Table">
-    </form>
+    <p class="error-message">
+        <% if (context["msg"] !="msg" ) {cout<<context["msg"]; } %>
+    </p>
 
-    <script>  
-        function addFood() {  
-            const foodList = document.getElementById('food_list');  
-            const newFoodItem = document.createElement('div');  
-            newFoodItem.classList.add('food_item');  
-            newFoodItem.innerHTML = `  
+    <script>
+        function addFood() {
+            const foodList = document.getElementById('food_list');
+            const newFoodItem = document.createElement('div');
+            newFoodItem.classList.add('food_item');
+            newFoodItem.innerHTML = `
                 <label for="food_name">Food name</label>
                 <select id="food_name" name="food_name" required>
                     <% for (auto item:context) { %>
                     <%if (item.second == "FOOD") { %>
                     <option value="<% cout<<item.first;%>">
-                    <% cout<<item.first; %>
+                        <% cout<<item.first; %>
                     </option>
                     <% }} %>
-                </select>  
-                <input type="number" name="food_quantity" min="1" placeholder="Quantity" required>  
-                <button type="button" onclick="removeFood(this)">Remove</button>  
-            `;  
-            foodList.appendChild(newFoodItem);  
-        }  
+                </select>
+                <input type="number" name="food_quantity" min="1" placeholder="Quantity" required>
+                <button type="button" onclick="removeFood(this)">Remove</button>
+            `;
+            foodList.appendChild(newFoodItem);
+        }
 
-        function removeFood(button) {  
-            const foodItem = button.parentNode;  
-            foodItem.parentNode.removeChild(foodItem);  
-        }  
+        function removeFood(button) {
+            const foodItem = button.parentNode;
+            foodItem.parentNode.removeChild(foodItem);
+        }
 
-        function prepareCSV() {  
-            const foodItems = document.querySelectorAll('.food_item');  
-            const foodDataArray = [];  
+        function prepareCSV() {
+            const foodItems = document.querySelectorAll('.food_item');
+            const foodDataArray = [];
 
-            foodItems.forEach(item => {  
-                const foodName = item.querySelector('select[name="food_name"]').value;  
-                const foodQuantity = item.querySelector('input[name="food_quantity"]').value;  
-                foodDataArray.push(`${foodName},${foodQuantity}`);  
-            });  
- 
+            foodItems.forEach(item => {
+                const foodName = item.querySelector('select[name="food_name"]').value;
+                const foodQuantity = item.querySelector('input[name="food_quantity"]').value;
+                foodDataArray.push(`${foodName},${foodQuantity}`);
+            });
+
             const foodDataCSV = foodDataArray.join(';');
-            document.getElementById('food_data').value = foodDataCSV;  
+            document.getElementById('food_data').value = foodDataCSV;
 
-            return true; 
-        } 
+            return true;
+        }
     </script>
-    </fieldset>
-    <p style="color:red"><% if (context["msg"] != "msg") {cout<<context["msg"];} %></p>
-    <br><br>
-    <a href="/dashboard">Back to Dashboard</a><br>
-    <a href="/logout">Logout</a>
 </body>
 
 </html>

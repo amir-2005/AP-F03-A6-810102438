@@ -302,17 +302,21 @@ Response *RestaurantHandler::callback(Request *req)
     res->setHeader("Content-Type", "text/html");
     ostringstream body;
     body << R"(  
-    <!DOCTYPE html>  
-    <html lang="en">  
-    <head>  
+        <!DOCTYPE html>  
+        <html lang="en">  
+        <head>  
         <meta charset="UTF-8">  
         <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-        <title>Chicken Family Menu</title>  
-    </head>
-    )";
+        <title>UTaste - Restaurants</title> )";
+    body << STYLE_FOR_RESTAURANTS_PAGE;
+    body << "</head>";
 
     body << R"(
     <body>
+    <div class="top-links">
+        <a class="link-button" href="/dashboard">Back to Dashboard</a>
+        <a class="logout" href="/logout">Logout</a>
+    </div>
     <fieldset>
     <h4>Reserve a Table</h4>
     <form action="/restaurants" method="POST">
@@ -322,7 +326,7 @@ Response *RestaurantHandler::callback(Request *req)
     for (auto r : utaste.rests)
         body << "<option value=\"" << r->name << "\">" << r->name << "</option>";
     body << "</select><br>";
-    body << R"(<input type="submit" value="Show Details">)";
+    body << R"(<input type="submit" class="submit" value="Show Details">)";
     body << R"(</form></fieldset><br>)";
 
     if (!current_rest.empty())
@@ -332,7 +336,8 @@ Response *RestaurantHandler::callback(Request *req)
         body << "<h3>District: " << info[RESTAURANT_INFO_DISTRICT].back() << "</h3>";
         body << "<h3>Time: " << info[RESTAURANT_INFO_TIME].back() << "</h3>";
 
-        body << R"(<div id="1">
+        body << R"(<div class="content-container">
+            <div class="content-box">
             <h2>Menu</h2>
             <table>
                 <tr><th>Item</th> <th>Price</th> </tr>)";
@@ -343,7 +348,7 @@ Response *RestaurantHandler::callback(Request *req)
         }
         body << "</table> </div>";
 
-        body << R"(<div id="2">
+        body << R"(<div class="content-box">
             <h2>Discounts</h2>
             <table>
                 <tr>
@@ -369,9 +374,9 @@ Response *RestaurantHandler::callback(Request *req)
             body << info[RESTAURANT_INFO_FIRST_DISCOUNT].back();
             body << "</td></tr>";
         }
-        body << "</table>";
+        body << "</table> </div> </div>";
 
-        body << R"(<h2>Tables</h2>
+        body << R"(<div class="content-box"> <h2>Tables</h2>
             <table id="3">
             <tr>
                 <th>Id</th>
@@ -382,10 +387,8 @@ Response *RestaurantHandler::callback(Request *req)
             body << "<tr><td>" << to_string(i + 1) << "</td>";
             body << "<td>" << info[RESTAURANT_INFO_TABLE][i] << "<td></tr>";
         }
-        body << "</table>";
+        body << "</table> </div>";
     }
-    body << R"(<a href="/dashboard">Back to Daahboard</a> <br>)";
-    body << R"(<a href="/logout">Logout</a> <br>)";
     body << "</body> </html>";
     res->setBody(body.str());
     return res;

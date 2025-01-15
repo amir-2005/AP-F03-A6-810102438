@@ -1,30 +1,145 @@
-<!DOCTYPE html>  
-<html lang="en">  
+<!-- Updated and Optimized HTML and CSS for budget.html -->
+<!DOCTYPE html>
+<html lang="en">
 
-<head>  
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>UTaste</title>  
-</head>  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Management - UTaste</title>
+    <style>
+        /* Color Palette */
+        :root {
+            --primary-color: #B08850;
+            --secondary-color: #8A4A2C;
+            --background-color: #EDE0C8;
+            --text-color: #4B352A;
+            --button-text-color: #FFFFFF;
+            --error-color: #FF5252;
+            --border-color: #ddd
+        }
 
-<body>    
-    <h4>Your Current Budget : <%cout<<context["budget"];%></h4>
-    <section>   
+        /* General Reset */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h4 {
+            color: var(--primary-color);
+            margin: 10px 0;
+            padding: 10px 10px 10px 0;
+            border: 2px solid var(--primary-color);
+            width: calc(100% - 20px);
+            text-align: center;
+            width: 56%;
+            max-width: 600px;
+            border-radius: 10px;
+        }
+
+        section {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="number"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+        }
+
+        input[type="number"] {
+            width: 96%;
+        }
+
+        input[type="submit"] {
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .top-links {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .link-button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .link-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .logout {
+            color: var(--error-color);
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: var(--background-color);
+            border: 1px solid var(--error-color);
+            border-radius: 5px;
+        }
+
+        .logout:hover {
+            background-color: var(--error-color);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-links">
+        <a class="link-button" href="/dashboard">Back to Dashboard</a>
+        <a class="logout" href="/logout">Logout</a>
+    </div>
+
+    <h4>Your Current Budget: <% cout << context["budget"]; %></h4>
+
+    <section>
         <form action="/budget" method="post">
-            <label for="budget_increase">How much do you increase your budget?:</label>
-            <input type="number" id="budget_increase" name="budget" min="10" max="1000000" required><br><br>
+            <label for="budget_increase">How much do you want to increase your budget?</label>
+            <input type="number" id="budget_increase" name="budget" min="10" max="1000000" required>
             <input type="submit" value="Increase">
-        </form> 
-        <p style="color: red;">
-        <% 
-        if (context["msg"]!="msg")
-            cout << context["msg"];
-        %> 
-        </p>
-    </section>  
+        </form>
 
-    <a href="/dashboard">Back to Dashboard</a><br>
-    <a href="/logout">Logout</a>
-</body>  
+        <p class="error-message">
+            <% if (context["msg"] != "msg") { cout << context["msg"]; } %>
+        </p>
+    </section>
+</body>
 
 </html>

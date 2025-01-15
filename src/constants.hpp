@@ -112,5 +112,123 @@ const float REFUND_PERCENT = 0.6;
 
 const string SESSION_LOGGED_IN = "LOGGED_IN";
 
+const string STYLE_FOR_RESTAURANTS_PAGE = R"(
+    <style>
+        :root {
+            --primary-color: #B08850;
+            --secondary-color: #8A4A2C;
+            --background-color: #EDE0C8;
+            --text-color: #4B352A;
+            --button-text-color: #FFFFFF;
+            --error-color: #FF5252;
+            --border-color: #B08850;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2, h3, h4 {
+            color: var(--primary-color);
+            margin: 10px 0;
+            padding: 10px 10px 10px 0;
+            border-bottom: 2px solid var(--primary-color);
+            width: calc(100% - 20px);
+            text-align: left;
+        }
+
+        fieldset {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .top-links {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .link-button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .link-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .logout {
+            color: var(--error-color);
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: var(--background-color);
+            border: 1px solid var(--error-color);
+            border-radius: 5px;
+        }
+
+        .logout:hover {
+            background-color: var(--error-color);
+            color: white;
+        }
+
+        .content-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 10px 10px;
+            width: 100%;
+        }
+
+        .content-box {
+            flex: 1;
+            min-width: 45%;
+            background-color: white;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .submit {
+            margin-top: 7px;
+        }
+    </style>
+)";
 
 #endif
