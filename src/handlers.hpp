@@ -7,11 +7,14 @@
 
 #include "../server/server.hpp"
 
-class ShowLogin : public TemplateHandler
+class ShowLoginSignUp : public TemplateHandler
 {
 public:
-    ShowLogin(string file_path) : TemplateHandler(file_path) {};
+    ShowLoginSignUp(string file_path, UTaste& _utaste) : TemplateHandler(file_path), utaste(_utaste){};
     map<string, string> handle(Request *req) override;
+
+private:
+    UTaste& utaste;
 };
 
 class LoginHandler : public RequestHandler
@@ -101,11 +104,30 @@ private:
 class BudgetHandler : public RequestHandler
 {
 public:
-    BudgetHandler(UTaste &_utaste) : utaste(_utaste) {};
+    BudgetHandler(UTaste &_utaste) : utaste(_utaste){};
     Response *callback(Request *) override;
 
 private:
     UTaste &utaste;
+};
+
+class RestaurantHandler : public RequestHandler
+{
+public:
+public:
+    RestaurantHandler(UTaste &_utaste, string _rest="") : utaste(_utaste), current_rest(_rest) {};
+    Response *callback(Request *) override;
+
+private:
+    UTaste &utaste;
+    string current_rest;
+};
+
+class RestaurantFinder : public RequestHandler
+{
+public:
+public:
+    Response *callback(Request *) override;
 };
 
 #endif

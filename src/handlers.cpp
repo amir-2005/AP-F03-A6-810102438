@@ -8,21 +8,21 @@ Response *LoginHandler::callback(Request *req)
     string password = req->getBodyParam("password");
 
     Response *res = Response::redirect("/dashboard");
-    res->setSessionId(username);
 
     try
     {
         utaste.login(username, password);
+        res->setSessionId(username);
     }
     catch (const PermissionDenied &e)
     {
         res = Response::redirect("/login");
-        res->setSessionId(PERMISSION_DENIED_MSG);
+        utaste.last_error_msg.login_signup = PERMISSION_DENIED_MSG;
     }
     catch (const NotFound &e)
     {
         res = Response::redirect("/login");
-        res->setSessionId(NOT_FOUND_MSG);
+        utaste.last_error_msg.login_signup = NOT_FOUND_MSG;
     }
 
     return res;
@@ -32,11 +32,24 @@ Response *SignUpHandler::callback(Request *req)
 {
     string username = req->getBodyParam("username");
     string password = req->getBodyParam("password");
-
-    utaste.signUp(username, password);
-
     Response *res = Response::redirect("/dashboard");
-    res->setSessionId(username);
+
+    try
+    {
+        utaste.signUp(username, password);
+        res->setSessionId(username);
+    }
+    catch (const PermissionDenied &e)
+    {
+        res = Response::redirect("/signup");
+        utaste.last_error_msg.login_signup = PERMISSION_DENIED_MSG;
+    }
+    catch (const BadRequest &e)
+    {
+        res = Response::redirect("/signup");
+        utaste.last_error_msg.login_signup = NOT_FOUND_MSG;
+    }
+
     return res;
 }
 
@@ -66,7 +79,6 @@ map<string, string> DashboardHandler::handle(Request *req)
 Response *DashboardHandler::callback(Request *req)
 {
     map<string, string> context;
-    context = this->handle(req);
     Response *res = new Response();
 
     if (utaste.current_user == nullptr || utaste.current_user->getName() != req->getSessionId())
@@ -76,16 +88,17 @@ Response *DashboardHandler::callback(Request *req)
     }
     else
     {
+        context = this->handle(req);
         res->setHeader("Content-Type", "text/html");
         res->setBody(parser_->getHtml(context));
     }
     return res;
 }
 
-map<string, string> ShowLogin::handle(Request *req)
+map<string, string> ShowLoginSignUp::handle(Request *req)
 {
     map<string, string> contex;
-    contex["situation"] = req->getSessionId();
+    contex["msg"] = utaste.last_error_msg.login_signup;
     return contex;
 }
 
@@ -265,5 +278,110 @@ Response *BudgetHandler::callback(Request *req)
         utaste.last_error_msg.budget = e.message;
     }
 
+    return res;
+}
+
+Response *RestaurantHandler::callback(Request *req)
+{
+    Response *res = new Response;
+
+    if (utaste.current_user == nullptr || req->getSessionId() != utaste.current_user->getName())
+    {
+        res = Response::redirect("/");
+        res->setSessionId("");
+        return res;
+    }
+
+    current_rest = req->getBodyParam(ARG_KEY_RESTAURANT_NAME);
+
+    res->setHeader("Content-Type", "text/html");
+    ostringstream body;
+    body << R"(  
+    <!DOCTYPE html>  
+    <html lang="en">  
+    <head>  
+        <meta charset="UTF-8">  
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+        <title>Chicken Family Menu</title>  
+    </head>
+    )";
+
+    body << R"(
+    <body>
+    <fieldset>
+    <h4>Reserve a Table</h4>
+    <form action="/restaurants" method="POST">
+        <label for="restaurant_name">Restaurant:</label>
+        <select id="restaurant_name" name="restaurant_name" required>
+    )";
+    for (auto r : utaste.rests)
+        body << "<option value=\"" << r->name << "\">" << r->name << "</option>";
+    body << "</select><br>";
+    body << R"(<input type="submit" value="Show Details">)";
+    body << R"(</form></fieldset><br>)";
+
+    if (!current_rest.empty())
+    {
+        map<string, vector<string>> info = utaste.getRestaurantInfo(current_rest);
+        body << "<h2>" << info[RESTAURANT_INFO_NAME].back() << "</h2>";
+        body << "<h3>District: " << info[RESTAURANT_INFO_DISTRICT].back() << "</h3>";
+        body << "<h3>Time: " << info[RESTAURANT_INFO_TIME].back() << "</h3>";
+
+        body << R"(<div id="1">
+            <h2>Menu</h2>
+            <table>
+                <tr><th>Item</th> <th>Price</th> </tr>)";
+        for (int i = 0; i < info[RESTAURANT_INFO_MENU_ITEM].size(); i++)
+        {
+            body << "<tr> <td>" << info[RESTAURANT_INFO_MENU_ITEM][i] << "</td>";
+            body << "<td>" << info[RESTAURANT_INFO_MENU_PRICE][i] << "</td> </tr>";
+        }
+        body << "</table> </div>";
+
+        body << R"(<div id="2">
+            <h2>Discounts</h2>
+            <table>
+                <tr>
+                    <th>Type</th>
+                    <th>Details</th>
+                </tr>)";
+        if (!info[RESTAURANT_INFO_ORDER_DISCOUNT].empty())
+        {
+            body << "<tr> <td>Order Amount Discount</td> <td>";
+            body << info[RESTAURANT_INFO_ORDER_DISCOUNT].back();
+            body << "</td> </tr>";
+        }
+        if (!info[RESTAURANT_INFO_ITEM_DISCOUNT].empty())
+        {
+            body << "<tr> <td>Item Specific Discount</td> <td>";
+            for (auto discount : info[RESTAURANT_INFO_ITEM_DISCOUNT])
+                body << discount << "<br>";
+            body << "</td></tr>";
+        }
+        if (!info[RESTAURANT_INFO_FIRST_DISCOUNT].empty())
+        {
+            body << "<tr> <td>First Order Discount</td> <td>";
+            body << info[RESTAURANT_INFO_FIRST_DISCOUNT].back();
+            body << "</td></tr>";
+        }
+        body << "</table>";
+
+        body << R"(<h2>Tables</h2>
+            <table id="3">
+            <tr>
+                <th>Id</th>
+                <th>Reservation Times</th>
+            </tr>)";
+        for (int i = 0; i < info[RESTAURANT_INFO_TABLE].size(); i++)
+        {
+            body << "<tr><td>" << to_string(i + 1) << "</td>";
+            body << "<td>" << info[RESTAURANT_INFO_TABLE][i] << "<td></tr>";
+        }
+        body << "</table>";
+    }
+    body << R"(<a href="/dashboard">Back to Daahboard</a> <br>)";
+    body << R"(<a href="/logout">Logout</a> <br>)";
+    body << "</body> </html>";
+    res->setBody(body.str());
     return res;
 }

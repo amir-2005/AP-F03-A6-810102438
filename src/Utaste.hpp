@@ -31,7 +31,7 @@ public:
     string getDistrictsInfo(string district_name);
     void setUserDistrict(string district_name);
     string getRestaurantsList(food food);
-    string getRestaurantInfo(string restaurant_name);
+    map<string,vector<string>> getRestaurantInfo(string restaurant_name);
     string setReservation(string restaurant_name, int table_id, time_period reserve_time, map<food, int> foods);
     vector<vector<string>> showReservations(string restaurant_name, int reserve_id);
     string showBudget();

@@ -8,7 +8,7 @@ void FirstOrderDiscount::apply(shared_ptr<Reservation> reserve)
             reserve->first_discount += value;
     }
     else
-    {   
+    {
         int discount_amount = reserve->bill * (float(value) / 100);
         if ((reserve->bill - reserve->food_discount) > discount_amount)
             reserve->first_discount += discount_amount;
@@ -46,18 +46,22 @@ void FoodDiscount::apply(shared_ptr<Reservation> reserve)
 
 string FirstOrderDiscount::info()
 {
-    string type_name = type == TYPE_PERCENTAGE ? TYPE_PERCENTAGE_NAME : TYPE_AMOUNT; 
-    return type_name + ", " + to_string(value);
+    if (type == TYPE_PERCENTAGE)
+        return to_string(value) + "%";
+    else
+        return to_string(value); + "Toman";
 }
 
 string TotalPriceDiscount::info()
 {
-    string type_name = type == TYPE_PERCENTAGE ? TYPE_PERCENTAGE_NAME : TYPE_AMOUNT; 
-    return type_name + ", " + to_string(min_value) + ", " + to_string(value);
+    if (type == TYPE_PERCENTAGE)
+        return to_string(value) + "%" + " off on orders above " + to_string(min_value);
+    else
+        return to_string(value) + "Toman off on orders above " + to_string(min_value);
 }
 
 string FoodDiscount::info()
 {
-    string type_name = type == TYPE_PERCENTAGE ? TYPE_PERCENTAGE_NAME : TYPE_AMOUNT; 
-    return name + "(" + type_name + ": " + to_string(value) + ")";
+    string suffix = type == TYPE_PERCENTAGE ? "\% off" : "Toman off";
+    return name + ": " + to_string(value) + suffix;
 }

@@ -124,9 +124,9 @@
             <input type="submit" value="Login">  
         </form> 
         <p>
-        <% if (context["situation"]=="PermissionDenied")
+        <% if (context["msg"]=="PermissionDenied")
             cout << "Incorrect Password ! Try Again";
-           else if (context["situation"]=="NotFound")
+           else if (context["msg"]=="NotFound")
             cout << "User Not Found !";
         %> 
         </p>

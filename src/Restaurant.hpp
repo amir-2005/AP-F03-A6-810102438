@@ -17,7 +17,7 @@ public:
     Restaurant(string _name, string district_name ,int tabels_num, map<string, int> _menu, int open_time, int close_time);
     int reserveTable(shared_ptr<Reservation> reserve, int table_id);
     void removeReservation(int reserve_id);
-    string getInfo();
+    map<string, vector<string>> getInfo();
     string name;
     string district_name;
     vector<vector<shared_ptr<Reservation>>> tables;

@@ -311,7 +311,7 @@ string UTaste::getRestaurantsList(food food)
     return output;
 }
 
-string UTaste::getRestaurantInfo(string restaurant_name)
+map<string,vector<string>> UTaste::getRestaurantInfo(string restaurant_name)
 {
     if (logged_in == false)
         throw(PermissionDenied(MSG_PERMISSION_DENIED_NO_USER));

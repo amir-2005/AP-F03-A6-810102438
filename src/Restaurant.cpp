@@ -49,49 +49,53 @@ int Restaurant::getPriceInMenu(const food &name)
         return menu[name];
 }
 
-string Restaurant::getInfo()
+map<string, vector<string>> Restaurant::getInfo()
 {
-    string output = "";
-    output += RESTAURANT_INFO_NAME + ": " + name + "\n";
-    output += RESTAURANT_INFO_DISTRICT + ": " + district_name + "\n";
-    output += RESTAURANT_INFO_TIME + ": " + to_string(working_time.first) + "-" + to_string(working_time.second) + "\n";
-    output += RESTAURANT_INFO_MENU + ": ";
-    for (auto item : menu)
-        output += item.first + "(" + to_string(item.second) + "), ";
-    output.erase(output.size() - 2);
-    output += "\n";
+    map<string, vector<string>> output;
+    output[RESTAURANT_INFO_NAME] = vector<string>{name};
+    output[RESTAURANT_INFO_DISTRICT] = vector<string>{district_name};
+    output[RESTAURANT_INFO_TIME] = vector<string>{to_string(working_time.first) + "-" + to_string(working_time.second)};
+    vector<string> menu_item, menu_price;
 
-    for (int i = 0; i < tables.size(); i++)
+    for (auto item : menu)
     {
-        output += to_string(i + 1) + ":";
-        for (auto r : tables[i])
-            output += " " + r->getTime() + ",";
-        if (output.back() == ',')
-            output.erase(output.size() - 1);
-        output += "\n";
+        menu_item.push_back(item.first);
+        menu_price.push_back(to_string(item.second));
     }
 
+    output[RESTAURANT_INFO_MENU_ITEM] = menu_item;
+    output[RESTAURANT_INFO_MENU_PRICE] = menu_price;
+
+    output[RESTAURANT_INFO_TABLE] = vector<string>{};
+    for (int i = 0; i < tables.size(); i++)
+    {
+        string table_info = "";
+        for (auto r : tables[i])
+            table_info += " " + r->getTime() + ",";
+        output[RESTAURANT_INFO_TABLE].push_back(table_info);
+    }
+
+    output[RESTAURANT_INFO_ORDER_DISCOUNT] = vector<string>{};
     for (auto d : discounts)
         if (TotalPriceDiscount *TD = dynamic_cast<TotalPriceDiscount *>(d.get()))
         {
-            output += RESTAURANT_INFO_ORDER_DISCOUNT + ": " + TD->info() + "\n";
+            output[RESTAURANT_INFO_ORDER_DISCOUNT].push_back(TD->info());
             break;
         }
 
-    if (FoodDiscount *FD = dynamic_cast<FoodDiscount*>(discounts.front().get()))
+    output[RESTAURANT_INFO_ITEM_DISCOUNT] = vector<string>{};
+    if (FoodDiscount *FD = dynamic_cast<FoodDiscount *>(discounts.front().get()))
     {
-        output += RESTAURANT_INFO_ITEM_DISCOUNT + ": ";
         for (auto d : discounts)
-        if (FoodDiscount *FD = dynamic_cast<FoodDiscount *>(d.get()))
-            output += FD->info() + ", ";
-        output.erase(output.size() - 2);
-        output += "\n";
+            if (FoodDiscount *FD = dynamic_cast<FoodDiscount *>(d.get()))
+                output[RESTAURANT_INFO_ITEM_DISCOUNT].push_back(FD->info());
     }
 
+    output[RESTAURANT_INFO_FIRST_DISCOUNT] = vector<string>{};
     for (auto d : discounts)
         if (FirstOrderDiscount *FOD = dynamic_cast<FirstOrderDiscount *>(d.get()))
         {
-            output += RESTAURANT_INFO_FIRST_DISCOUNT + ": " + FOD->info() + "\n";
+            output[RESTAURANT_INFO_FIRST_DISCOUNT].push_back(FOD->info());
             break;
         }
 
@@ -100,7 +104,7 @@ string Restaurant::getInfo()
 
 void Restaurant::removeReservation(int reserve_id)
 {
-    for (auto& table : tables)
+    for (auto &table : tables)
         for (auto r : table)
             if (r->id == reserve_id)
             {

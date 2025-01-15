@@ -6,19 +6,21 @@ using namespace std;
 void mapServerPaths(Server &server, UTaste &utaste)
 {
     server.setNotFoundErrPage("static/404.html");
+    server.get("/image", new ShowImage("static/image.png"));
     server.get("/", new ShowPage("static/home.html"));
-    server.get("/login", new ShowLogin("template/login.html"));
-    server.get("/signup", new ShowPage("static/signup.html"));
+    server.get("/login", new ShowLoginSignUp("template/login.html", utaste));
+    server.get("/signup", new ShowLoginSignUp("template/signup.html", utaste));
     server.post("/login", new LoginHandler(utaste));
     server.post("/signup", new SignUpHandler(utaste));
     server.get("/dashboard", new DashboardHandler("template/dashboard.html", utaste));
-    server.get("/restaurants", new DashboardHandler("template/dashboard.html", utaste));
     server.get("/reservation", new ReservationForm("template/reservation.html", utaste));
     server.post("/reservation", new ReservationHandler(utaste));
     server.get("/reserve_list", new ReserveListHandler("template/reserve_list.html", utaste));
     server.get("/budget", new BudgetPage("template/budget.html", utaste));
     server.post("/budget", new BudgetHandler(utaste));
     server.get("/logout", new LogoutHandler(utaste));
+    server.get("/restaurants", new RestaurantHandler(utaste));
+    server.post("/restaurants", new RestaurantHandler(utaste));
 }
 
 int main(int argc, char **argv)
